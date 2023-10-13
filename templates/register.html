@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+    <div class="container-fluid text-center">
+        <img src="/static/logo-dark.png" alt="logo" class="logo">
+    </div>
+{% endblock %}
+
+{% block main %}
+    <section class="container auth">
+        <div class="container pb-5">
+            <h1 class="fs-1 fw-bolder">Welcome!</h1>
+            <p class="text-secondary">Create an account</p>
+        </div>
+        <form class="container" id="registration-form" action="/register" method="post" onsubmit="return validateForm();">
+            <div class="mb-5">
+                <div class="form-floating mb-3">
+                    <input type="text" name="username" class="form-control" id="username" placeholder="User name" autocomplete="off">
+                    <label for="username" class="text-secondary">
+                        <i class="fa-solid fa-user me-2"></i>
+                        User name
+                    </label>
+                    <div class="error-message" style="height: 10px" id="username-error">
+                        {% if existing_user %}
+                            User name is already taken. Please choose another.
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+                    <label for="password" class="text-secondary">
+                        <i class="fa-solid fa-lock me-2"></i>
+                        Password
+                    </label>
+                    <div class="error-message" style="height: 10px" id="password-error"></div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm password" type="password" autocomplete="off">
+                    <label for="confirmation" class="text-secondary">
+                        <i class="fa-solid fa-lock me-2"></i>
+                        Confirm password
+                    </label>
+                    <div class="error-message" style="height: 10px" id="confirmation-error"></div>
+                </div>
+            </div>
+            <button class="btn btn-primary w-100 mb-3" type="submit">Register</button>
+            <div class="d-flex">
+                <p class="me-3 text-secondary">Already a user?</p>
+                <a href="/login">Login</a>
+            </div>
+        </form>
+    </section>
+    <script>
+        function validateForm() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let confirmation = document.getElementById("confirmation").value;
+            let isValid = true;
+
+            document.getElementById("username-error").textContent = "";
+            document.getElementById("password-error").textContent = "";
+            document.getElementById("confirmation-error").textContent = "";
+
+            if (!username) {
+                document.getElementById("username-error").textContent = "Please enter a username.";
+                isValid = false;
+            }
+
+            if (!password) {
+                document.getElementById("password-error").textContent = "Please enter a password.";
+                isValid = false;
+            }
+
+            if (!confirmation) {
+                document.getElementById("confirmation-error").textContent = "Please confirm your password.";
+                isValid = false;
+            }
+
+            if (password !== confirmation) {
+                document.getElementById("confirmation-error").textContent = "Passwords do not match.";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+
+{% endblock %}

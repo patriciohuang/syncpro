@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+    <div class="container-fluid text-center">
+        <img src="/static/logo-dark.png" alt="logo" class="logo">
+    </div>
+{% endblock %}
+
+{% block main %}
+    <section class="container auth">
+        <div class="container pb-5">
+            <h1 class="fs-1 fw-bolder">Hello!</h1>
+            <p class="text-secondary">Welcome back</p>
+        </div>
+        <form class="container" id="login-form" action="/login" method="post" onsubmit="return validateForm();">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="username" id="username" placeholder="User name" autocomplete="off">
+                <label for="username" class="text-secondary">
+                    <i class="fa-solid fa-user me-2"></i>
+                    User name
+                </label>
+                <div class="error-message" style="height: 10px" id="username-error">
+                </div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
+                <label for="password" class="text-secondary">
+                    <i class="fa-solid fa-lock me-2"></i>
+                    Password
+                </label>
+                <div class="error-message" style="height: 10px" id="password-error">
+                    {% if invalid %}
+                        Invalid user name or password.
+                    {% endif %}
+                </div>
+            </div>
+            <button class="btn btn-primary w-100 mb-3" type="submit">Login</button>
+            <div class="d-flex">
+                <p class="me-3 text-secondary">Don't have an account?</p>
+                <a href="/register">Sign up</a>
+            </div>
+        </form>
+    </section>
+    <script>
+        function validateForm() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            let isValid = true;
+
+            document.getElementById("username-error").textContent = "";
+            document.getElementById("password-error").textContent = "";
+
+            if (!username) {
+                document.getElementById("username-error").textContent = "Please enter a username.";
+                isValid = false;
+            }
+
+            if (!password) {
+                document.getElementById("password-error").textContent = "Please enter a password.";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
+{% endblock %}

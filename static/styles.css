@@ -1,0 +1,122 @@
+nav div {
+    align-self: center;
+}
+
+.section {
+    width: 80%;
+    margin: auto;
+}
+
+.logo {
+    width: 8em;
+    margin: 20px auto;
+}
+
+.error-message {
+    color: red;
+}
+
+a, a:active, a:hover {
+    text-decoration: none;
+    color: #4F6273;
+}
+
+.edit-link, .edit-link:active, .edit-link:hover{
+    color: white;
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.list-item-link {
+    flex: 1;
+}
+
+.contact-container {
+    height: 100px;
+}
+
+.user-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.user-icon img {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 5px;
+    border-style: double;
+}
+.whatsapp-icon img {
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+}
+
+.card-img-top {
+    width: 100px;
+    height: 100px;
+}
+@media (max-width: 768px) {
+
+    .list-item-content {
+        position: relative;
+        left: 0;
+        transition: left 0.3s ease;
+    }
+
+    .delete-button-container {
+        display: flex;
+        position: absolute;
+        top: -20;
+        right: -100px;
+        width: auto;
+        transition: right 0.3s ease;
+    }
+
+    .list-group-item.swiping-right .list-item-content {
+        left: -100px;
+    }
+
+    .list-group-item.swiping-right .delete-button-container {
+        right: 0;
+    }
+
+    .list-group-item.swiping-right .delete-button-container .delete-button,
+    .list-group-item.swiping-right .delete-button-container .edit-button {
+        display: block;
+    }
+
+    .list-group-item .delete-button-container .delete-button,
+    .list-group-item .delete-button-container .edit-button {
+        display: none;
+    }
+    .delete-button, .edit-button, li.list-group-item {
+        height: 60px;
+    }
+    .delete-button, .edit-button {
+        width: 70px;
+    }
+    #contact .delete-button {
+        padding: 50px 0;
+    }
+}
+@media (min-width: 768px) {
+    .auth {
+        width: 30%;
+        text-align: center;
+    }
+    .section {
+        width: 50%;
+    }
+    section {
+        width: 50%;
+        margin: auto;
+    }
+ }
