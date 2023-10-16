@@ -52,16 +52,17 @@ a, a:active, a:hover {
     padding: 5px;
     border-style: double;
 }
-.whatsapp-icon img {
-    vertical-align: middle;
-    width: 40px;
-    height: 40px;
-    padding: 5px;
-}
 
 .card-img-top {
     width: 100px;
     height: 100px;
+}
+.profile-card {
+    height: 100px;
+    background-color: #4F6273;
+}
+.profile-card h3 {
+    color: white;
 }
 @media (max-width: 768px) {
 

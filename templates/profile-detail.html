@@ -2,15 +2,15 @@
 
 {% block nav %}
     <div class="container-fluid">
-        <a href="/contact-list/{{ list_id }}">
+        <a href="/">
             <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
         </a>
     </div>
     <div class="container-fluid">
-        <p class="logo fs-3">Detail</p>
+        <img src="/static/logo-dark.png" alt="logo" class="logo">
     </div>
     <div class="container-fluid">
-        <a href="contact-edit/{{ contact_id }}">
+        <a href="edit-profile/{{ profile_id }}">
             <i class="fa-regular fa-pen-to-square fa-xl"></i>
         </a>
     </div>
@@ -19,33 +19,31 @@
 {% block main %}
     <section class="section">
         <div class="d-flex flex-column align-items-center">
-            <img class="card-img-top" src="/static/user-avatar.png" alt="User avatar">
-            <div class="w-100">
-                {% for contact in contacts %}
+            {% for data in profile %}
+                <img class="card-img-top" src="/{{ data.image }}" alt="User avatar">
+                <div class="w-100">
                     <div class="text-center mt-4">
-                        <h1>{{ contact.first_name }} {{ contact.last_name }}</h1>
-                        <p>+{{ contact.phone_number }}</p>
+                        <h1>{{ data.first_name }} {{ data.last_name }}</h1>
+                        {% if data.number %}
+                            <p>+{{ data.number }}</p>
+                        {% endif %}
                     </div>
                     <div>
                         <div class="form-floating mb-3">
-                            <input id="firstname" class="form-control" value="{{ contact.first_name }}" autocomplete="off" disabled>
+                            <input id="firstname" class="form-control" value="{{ data.first_name }}" autocomplete="off" disabled>
                             <label for="firstname">First name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input id="lastname" class="form-control" value="{{ contact.last_name }}" autocomplete="off" disabled>
+                            <input id="lastname" class="form-control" value="{{ data.last_name }}" autocomplete="off" disabled>
                             <label for="lastname">Last name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input id="number" class="form-control" value="{{ contact.phone_number }}" autocomplete="off" disabled>
-                            <label for="number">Number</label>
+                            <input id="number" class="form-control" value="{{ data.address }}" autocomplete="off" disabled>
+                            <label for="number">Address</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input id="email" class="form-control" value="{{ contact.email }}" autocomplete="off" disabled>
+                            <input id="email" class="form-control" value="{{ data.email }}" autocomplete="off" disabled>
                             <label for="email">Email</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea id="note" class="form-control" style="height: 100px" value="{{ contact.note }}" autocomplete="off" disabled></textarea>
-                            <label for="note">Notes</label>
                         </div>
                     {% if links %}
                         {% for link in links %}
@@ -57,10 +55,10 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                {% endfor %}
-            </div>
-            {% for contact in contacts%}
-                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ contact.id }}">
+                </div>
+            {% endfor %}
+            {% for data in profile %}
+                <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ data.id }}">
                     <i class="fa-solid fa-trash-can"></i>
                     Delete
                 </button>

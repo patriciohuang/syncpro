@@ -11,10 +11,6 @@
         <p class="logo fs-3">{{ list_name }}</p>
     </div>
     <div class="container-fluid">
-        <a href="/add-contact/{{ list_id }}">
-            <i class="fa-solid fa-plus fa-xl me-2"></i>
-            Add
-        </a>
     </div>
 {% endblock %}
 
@@ -31,20 +27,14 @@
         </div>
         <div class="container px-4">
             <div id="searchResults">
-                {% for contact in contact_list %}
+                {% for profile in profiles %}
                     <div class="d-flex justify-content-between border-top py-3">
-                        <a href="contact-detail/{{ contact.id }}" class="d-flex w-100">
+                        <a href="contact-detail/{{ profile.id }}" class="d-flex w-100">
                             <div class="user-icon me-3">
                                 <img src="/static/user-avatar.png" alt="User avatar" />
                             </div>
                             <div class="list-item-content">
-                                <h3 class="m-0 fs-4">{{ contact.first_name }}</h3>
-                                <p class="m-0 text-black-50 opacity-75">+{{ contact.phone_number }}</p>
-                            </div>
-                        </a>
-                        <a href="https://wa.me/{{ contact.phone_number }}" target="_blank">
-                            <div class="whatsapp-icon">
-                                <img src="../static/whatsapp.png" alt="Whatsapp avatar" />
+                                <h3 class="m-0 fs-4">{{ profile.first_name }}</h3>
                             </div>
                         </a>
                     </div>

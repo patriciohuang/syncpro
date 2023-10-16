@@ -7,7 +7,7 @@ db = SQL("sqlite:///syncpro.db")
 def login():
     session.clear()
     if request.method == "POST":
-        username = request.form.get("username")
+        username = request.form.get("username").title()
         password = request.form.get("password")
         if not username:
             return render_template("login.html")
@@ -28,7 +28,7 @@ def logout():
 def register():
     existing_user = False
     if request.method == "POST":
-        username = request.form.get("username")
+        username = request.form.get("username").title()
         password = request.form.get("password")
 
         existing_user = db.execute("SELECT * FROM users WHERE username = ?", username)
@@ -40,6 +40,8 @@ def register():
 
         row = db.execute("SELECT * FROM users WHERE username = ?", username)
         session["user_id"] = row[0]["id"]
-        db.execute("INSERT INTO lists (user_id, list_name) VALUES (?, ?)", session["user_id"], 'My contact')
+        db.execute("INSERT INTO lists (user_id, list_name) VALUES (?, ?)", session["user_id"], 'My contacts')
+        image = "static/user-avatar.png"
+        db.execute("INSERT INTO profiles (profile_name, first_name, last_name, number, address, email, image, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 'My profile', username, '', '', '', '', image, session["user_id"])
         return redirect("/")
     return render_template("register.html")

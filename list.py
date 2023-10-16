@@ -6,7 +6,9 @@ db = SQL("sqlite:///syncpro.db")
 def index():
     user_id = session["user_id"]
     lists = db.execute("SELECT id, list_name FROM lists WHERE user_id = ?", user_id)
-    return render_template("index.html", lists=lists)
+    profiles = db.execute("SELECT * FROM profiles WHERE user_id = ?", user_id)
+    avatar = profiles[0]["image"]
+    return render_template("index.html", lists=lists, profiles=profiles, avatar=avatar)
 
 def add_list():
     if request.method == "POST":
@@ -35,8 +37,7 @@ def edit_list(list_id):
 
 def delete_list(list_id):
     if list_id:
-        db.execute("DELETE FROM contacts WHERE list_id = ?", list_id)
-        db.execute("DELETE FROM user_links WHERE id = ?", list_id)
+        db.execute("DELETE FROM lists_profiles WHERE list_id = ?", list_id)
         db.execute("DELETE FROM lists WHERE id = ?", list_id)
 
         return redirect("/")
