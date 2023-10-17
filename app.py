@@ -3,9 +3,9 @@ from flask_session import Session
 
 from helpers import login_required
 from auth import login, logout, register
-from contact import contact_list, delete_contact
+from contact import contact_list
 from list import index, add_list, delete_list, edit_list
-from profiles import profile_detail, edit_profile
+from profiles import profile_detail, edit_profile, add_profile, delete_profile, profile_lists
 
 # Configure application
 app = Flask(__name__, static_folder="static")
@@ -43,7 +43,7 @@ def add_list_route():
 def edit_list_route(list_id):
     return edit_list(list_id)
 
-"LIST DELETE"
+"DELETE LIST"
 @app.route("/delete-list/<int:list_id>")
 @login_required
 def delete_list_route(list_id):
@@ -51,6 +51,12 @@ def delete_list_route(list_id):
 
 
 # PROFILE
+"PROFILE LISTS"
+@app.route("/profile-lists")
+@login_required
+def profile_lists_route():
+    return profile_lists()
+
 "PROFILE DETAIL"
 @app.route("/profile-detail/<int:profile_id>")
 @login_required
@@ -63,6 +69,17 @@ def profile_detail_route(profile_id):
 def edit_profile_route(profile_id):
     return edit_profile(profile_id)
 
+"ADD PROFILE"
+@app.route("/add-profile", methods=["GET", "POST"])
+@login_required
+def add_profile_route():
+    return add_profile()
+
+"DELETE PROFILE"
+@app.route("/delete-profile/<int:profile_id>")
+@login_required
+def delete_profile_route(profile_id):
+    return delete_profile(profile_id)
 
 # CONTACT LIST
 "CONTACTS LISTS"
@@ -89,11 +106,11 @@ def contact_list_route(list_id):
 # def add_contact_route(list_id):
 #     return add_contact(list_id)
 
-"CONTACT DELETE"
-@app.route("/delete-contact/<int:contact_id>")
-@login_required
-def delete_contact_route(contact_id):
-    return delete_contact(contact_id)
+# "CONTACT DELETE"
+# @app.route("/delete-contact/<int:contact_id>")
+# @login_required
+# def delete_contact_route(contact_id):
+#     return delete_contact(contact_id)
 
 # AUTH
 "LOGIN"

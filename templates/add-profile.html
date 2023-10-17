@@ -2,19 +2,24 @@
 
 {% block nav %}
     <div class="container-fluid">
-        <a href="/contact-list/{{ list_id }}">
+        <a href="/">
             <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
         </a>
     </div>
     <div class="container-fluid">
-        <p class="logo fs-3">Add contact</p>
+        <p class="logo fs-3">Add profile</p>
     </div>
     <div class="container-fluid"></div>
 {% endblock %}
 
 {% block main %}
     <section class="section">
-        <form id="add-contact-form" action="/add-contact/{{list_id}}" method="post" onsubmit="return validateForm();">
+        <form id="add-contact-form" action="/add-profile" method="post" onsubmit="return validateForm();">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="profilename" id="profilename" placeholder="Profile name">
+                <label for="profilename">Profile name</label>
+                <div class="error-message" id="profilename-error"></div>
+            </div>
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First name">
                 <label for="firstname">First name</label>
@@ -29,6 +34,10 @@
                 <label for="number">Number</label>
             </div>
             <div class="form-floating mb-3">
+                <input type="text" class="form-control" name="address" id="address" placeholder="Address" autocomplete="off">
+                <label for="address">Address</label>
+            </div>
+            <div class="form-floating mb-3">
                 <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com">
                 <label for="email">Email</label>
             </div>
@@ -37,10 +46,6 @@
             <div class="form-floating mb-3">
                 <input type="button" id="addurl" class="form-control" onclick="addURL()" placeholder="https://example.com">
                 <label for="addurl"><i class="fas fa-plus"></i> Add URL</label>
-            </div>
-            <div class="form-floating mb-3">
-                <textarea class="form-control" placeholder="Leave a comment here" name="note" id="floatingTextarea" style="height: 100px"></textarea>
-                <label for="note">Notes</label>
             </div>
             <button class="btn btn-secondary w-100" type="submit">Add</button>
         </form>

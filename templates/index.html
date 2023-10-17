@@ -1,84 +1,87 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid">
-        <a href="/logout">Log out</a>
-    </div>
-    <div class="container-fluid">
-        <img src="/static/logo-dark.png" alt="logo" class="logo">
-    </div>
-    <div class="container">
-        <a href="/add-list" class="user-icon"><img src="{{ avatar }}" alt="avatar"></a>
-    </div>
+<div class="container-fluid">
+  <a href="/logout">Log out</a>
+</div>
+<div class="container-fluid">
+  <img src="/static/logo-dark.png" alt="logo" class="logo">
+</div>
+<div class="container">
+  <a href="/add-list" class="user-icon"><img src="{{ avatar }}" alt="avatar"></a>
+</div>
 {% endblock %}
 
 {% block main %}
-    <section>
-        <div class="mb-5">
-            <div class="container pb-2 px-4 d-flex justify-content-between">
-                <h2>My profiles</h2>
-                <div class="container-fluid w-50 m-0 text-end">
-                    <a href="/add-list">Add profile</a>
-                </div>
-            </div>
-            <div class="container px-4">
-                {% for profile in profiles %}
-                    <div class="d-flex justify-content-between rounded p-3 mb-2 profile-card">
-                        <a href="profile-detail/{{ profile.id }}" class="d-flex w-100">
-                            <div class="profile-body">
-                                <h3 class="m-0 fs-4">{{ profile.profile_name }}</h3>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-            {% if profiles[1] %}
-                <div class="container d-flex flex-row-reverse px-4">
-                    <a href="/add-list">View all</a>
-                </div>
-            {% endif %}
+<section>
+  <div class="mb-5">
+    <div class="container pb-2 px-4 d-flex justify-content-between">
+      <h2>My profiles</h2>
+      <div class="container-fluid w-50 m-0 text-end">
+        <a href="/add-profile">Add profile</a>
+      </div>
+    </div>
+    <div class="container px-4">
+      {% if profiles %}
+      <div class="d-flex justify-content-between rounded p-3 mb-2 profile-card">
+        <a href="profile-detail/{{ profiles[0].id }}" class="d-flex w-100">
+          <div class="profile-body">
+            <p class="m-0 fs-4">{{ profiles[0].profile_name }}</p>
+          </div>
+        </a>
+      </div>
+      {% else %}
+        <p>You don't have any profiles yet, create your first one.</p>
+      {% endif %}
+    </div>
+    {% if profiles[1] %}
+    <div class="container d-flex flex-row-reverse px-4">
+      <a href="/profile-lists">View all</a>
+    </div>
+    {% endif %}
+  </div>
+  <div>
+    <div class="container pb-2 px-4">
+      <div class="d-flex justify-content-between">
+        <h2>My contact lists</h2>
+        <div class="container-fluid w-25 m-0 text-end">
+          <a href="/add-list">Add list</a>
         </div>
-        <div>
-            <div class="container pb-2 px-4">
-                <div class="d-flex justify-content-between">
-                    <h2>My contact lists</h2>
-                    <div class="container-fluid w-25 m-0 text-end">
-                        <a href="/add-list">Add list</a>
-                    </div>
-                </div>
-            </div>
-            <ul class="list-group">
-                {% for list in lists %}
-                    <li class="list-group-item d-flex justify-content-between ps-4">
-                        <a href="/contact-list/{{ list.id }}" class="list-item-link">
-                            <div class="list-item-content">
-                                <i class="fa-solid fa-user-group me-2 text-secondary"></i>
-                                {{ list.list_name }}
-                            </div>
-                        </a>
-                        <div class="delete-button-container">
-                            <button class="edit-button btn btn-secondary">
-                                <a href="/edit-list/{{ list.id }}" class="edit-link">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Edit
-                                </a>
-                            </button>
-                            <button type="button" class="delete-button btn btn-danger" data-bs-toggle="modal" data-bs-target="#modal-{{ list.id }}">
-                                <i class="fa-solid fa-trash-can"></i>
-                                Delete
-                            </button>
-                            {% set data = list %}
-                            {% include "modal.html" %}
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function () {
-                                    document.querySelector("#delete-link-{{ list.id }}").href = "/delete-list/{{ list.id }}";
-                                    document.querySelector("#item-{{ list.id }}").textContent = "{{ list.list_name }}";
-                                });
-                            </script>
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+      </div>
+    </div>
+    <ul class="list-group">
+      {% for list in lists %}
+      <li class="list-group-item d-flex justify-content-between ps-4">
+        <a href="/contact-list/{{ list.id }}" class="list-item-link">
+          <div class="list-item-content">
+            <i class="fa-solid fa-user-group me-2 text-secondary"></i>
+            {{ list.list_name }}
+          </div>
+        </a>
+        <div class="delete-button-container">
+          <button class="edit-button btn btn-secondary">
+            <a href="/edit-list/{{ list.id }}" class="edit-link">
+              <i class="fa-solid fa-pen"></i>
+              Edit
+            </a>
+          </button>
+          <button type="button" class="delete-button btn btn-danger" data-bs-toggle="modal"
+            data-bs-target="#modal-{{ list.id }}">
+            <i class="fa-solid fa-trash-can"></i>
+            Delete
+          </button>
+          {% set data = list %}
+          {% include "modal.html" %}
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              document.querySelector("#delete-link-{{ list.id }}").href = "/delete-list/{{ list.id }}";
+              document.querySelector("#item-{{ list.id }}").textContent = "{{ list.list_name }}";
+            });
+          </script>
         </div>
-    </section>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
 {% endblock %}

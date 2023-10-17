@@ -61,7 +61,7 @@ a, a:active, a:hover {
     height: 100px;
     background-color: #4F6273;
 }
-.profile-card h3 {
+.profile-card p {
     color: white;
 }
 @media (max-width: 768px) {

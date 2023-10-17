@@ -98,12 +98,12 @@ def contact_list(list_id):
 #     else:
 #         return render_template("contact-edit.html", contact=contacts[0], contact_id=contact_id, links=links)
 
-def delete_contact(contact_id):
-    list_id = db.execute("SELECT list_id FROM contacts WHERE id = ?", contact_id)
-    if list_id:
-        list_id = list_id[0]["list_id"]
-        db.execute("DELETE FROM user_links WHERE contact_id = ?", contact_id)
-        db.execute("DELETE FROM contacts WHERE id = ?", contact_id)
-        return redirect(f"/contact-list/{list_id}")
-    else:
-        return redirect("/error")
+# def delete_contact(contact_id):
+#     list_id = db.execute("SELECT list_id FROM contacts WHERE id = ?", contact_id)
+#     if list_id:
+#         list_id = list_id[0]["list_id"]
+#         db.execute("DELETE FROM user_links WHERE contact_id = ?", contact_id)
+#         db.execute("DELETE FROM contacts WHERE id = ?", contact_id)
+#         return redirect(f"/contact-list/{list_id}")
+#     else:
+#         return redirect("/error")

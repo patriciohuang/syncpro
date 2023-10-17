@@ -6,8 +6,11 @@ db = SQL("sqlite:///syncpro.db")
 def index():
     user_id = session["user_id"]
     lists = db.execute("SELECT id, list_name FROM lists WHERE user_id = ?", user_id)
-    profiles = db.execute("SELECT * FROM profiles WHERE user_id = ?", user_id)
-    avatar = profiles[0]["image"]
+    profiles = db.execute("SELECT * FROM profiles WHERE user_id = ? ORDER BY id DESC", user_id)
+    if profiles:
+        avatar = profiles[0]["image"]
+    else:
+        avatar = 'static/user-avatar.png'
     return render_template("index.html", lists=lists, profiles=profiles, avatar=avatar)
 
 def add_list():

@@ -18,10 +18,12 @@
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="profilename" id="profilename" placeholder="Profile Name" autocomplete="off" value="{{ profile.profile_name }}">
                 <label for="profilename">Profile name</label>
+                <div class="error-message" id="profilename-error"></div>
             </div>
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First Name" autocomplete="off" value="{{ profile.first_name }}">
                 <label for="firstname">First name</label>
+                <div class="error-message" id="firstname-error"></div>
             </div>
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last Name" autocomplete="off" value="{{ profile.last_name }}">
@@ -55,4 +57,25 @@
             <button class="btn btn-secondary w-100" type="submit">Update</button>
         </form>
     </section>
+    <script>
+        function validateForm() {
+            let profilename = document.getElementById("profilename").value;
+            let firstname = document.getElementById("firstname").value;
+            let isValid = true;
+
+            document.getElementById("profilename-error").textContent = "";
+            document.getElementById("firstname-error").textContent = "";
+
+            if (!profilename) {
+                document.getElementById("profilename-error").textContent = "Please enter a profile name.";
+                isValid = false;
+            }
+            if (!firstname) {
+                document.getElementById("firstname-error").textContent = "Please enter a first name.";
+                isValid = false;
+            }
+
+            return isValid;
+        }
+    </script>
 {% endblock %}

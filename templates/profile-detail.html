@@ -62,12 +62,12 @@
                     <i class="fa-solid fa-trash-can"></i>
                     Delete
                 </button>
-                {% set data = contact %}
+                {% set data = data %}
                 {% include "modal.html" %}
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                        document.querySelector("#delete-link-{{ contact.id }}").href = "/delete-contact/{{ contact.id }}";
-                        document.querySelector("#item-{{ contact.id }}").textContent = "{{ contact.first_name }}";
+                        document.querySelector("#delete-link-{{ data.id }}").href = "/delete-profile/{{ data.id }}";
+                        document.querySelector("#item-{{ data.id }}").textContent = "{{ data.first_name }}";
                     });
                 </script>
             {% endfor %}

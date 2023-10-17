@@ -55,13 +55,19 @@
         }
         // For ADD FORM and EDIT FORM to validate the form before submit
         function validateForm() {
+            let profilename = document.getElementById("profilename").value;
             let firstname = document.getElementById("firstname").value;
             let isValid = true;
 
+            document.getElementById("profilename-error").textContent = "";
             document.getElementById("firstname-error").textContent = "";
 
+            if (!profilename) {
+                document.getElementById("profilename-error").textContent = "Please enter a profile name.";
+                isValid = false;
+            }
             if (!firstname) {
-                document.getElementById("firstname-error").textContent = "Please enter a name.";
+                document.getElementById("firstname-error").textContent = "Please enter a first name.";
                 isValid = false;
             }
 
