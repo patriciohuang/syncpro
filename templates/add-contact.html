@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+<div class="container-fluid">
+  <a href="/profile-detail/{{ profile_id }}">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+    contact
+  </a>
+</div>
+<div class="container-fluid">
+  <img src="/static/logo-dark.png" alt="logo" class="logo">
+</div>
+<div class="container">
+</div>
+{% endblock %}
+
+{% block main %}
+<section>
+  <div>
+    <div class="container pb-2 px-4">
+      <h2 class="mb-5">Add to my list</h2>
+      <form id="add-contact-form" action="/add-contact/{{ profile_id }}" method="post">
+        {% for list in lists %}
+          <select class="form-select" name="selected_list" aria-label="Default select example">
+            <option selected disabled>Select one list</option>
+            <option value="{{ list.id }}">{{ list.list_name }}</option>
+          </select>
+        {% endfor %}
+        <button id="add-contact" type="submit" class="btn btn-secondary my-3 w-100">
+          <i class="fa-solid fa-plus"></i>
+          Add</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

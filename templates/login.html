@@ -12,7 +12,7 @@
             <h1 class="fs-1 fw-bolder">Hello!</h1>
             <p class="text-secondary">Welcome back</p>
         </div>
-        <form class="container" id="login-form" action="/login" method="post" onsubmit="return validateForm();">
+        <form class="container" id="login-form" action="/login{{redirect_param}}" method="post" onsubmit="return validateForm();">
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="username" id="username" placeholder="User name" autocomplete="off">
                 <label for="username" class="text-secondary">

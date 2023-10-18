@@ -5,42 +5,27 @@ from urllib.parse import urlsplit
 db = SQL("sqlite:///syncpro.db")
 
 
-# def add_contact(list_id):
-#     user_id = session["user_id"]
-#     list_id = int(list_id)
+from flask import request, redirect, session, url_for
 
-#     if request.method == "POST":
-#         firstname = request.form.get("firstname")
-#         lastname = request.form.get("lastname")
-#         email = request.form.get("email")
-#         number = request.form.get("number")
-#         note = request.form.get("note")
+# ... your other imports and code ...
 
-#         db.execute(
-#             "INSERT INTO contacts (list_id, user_id, first_name, last_name, email, phone_number, note) VALUES (?, ?, ?, ?, ?, ?, ?)",
-#             list_id,
-#             user_id,
-#             firstname,
-#             lastname,
-#             email,
-#             number,
-#             note
-#         )
+def add_contact(profile_id):
+    user_id = session["id"]
+    if request.method == "POST":
+        selected_list = request.form.get("selected_list")
+        exist_contact = db.execute("SELECT * FROM lists JOIN lists_profiles ON lists.id = lists_profiles.list_id WHERE lists.id = ? AND lists_profiles.profile_id = ?", selected_list, profile_id)
+        if exist_contact:
+            return redirect('/')
+        else:
+            db.execute("INSERT INTO lists_profiles (list_id, profile_id) VALUES (?, ?)", selected_list, profile_id)
+            return redirect('/')
+    else:
+        lists = db.execute("SELECT * FROM lists WHERE user_id = ?", user_id)
+        if not lists:
+            db.execute("INSERT INTO lists (user_id, list_name) VALUES (?, ?)", user_id, 'My contacts')
+            lists = db.execute("SELECT * FROM lists WHERE user_id = ?", user_id)
+        return render_template("add-contact.html", lists=lists, profile_id=profile_id)
 
-#         contact_id = db.execute("SELECT id FROM contacts ORDER BY id DESC LIMIT 1")
-#         contact_id = contact_id[0]["id"]
-#         for key, value in request.form.items():
-#             if key.startswith("url"):
-#                 link_url = value
-#                 parsed_url = urlsplit(link_url)
-#                 link_type = parsed_url.netloc
-#                 db.execute("INSERT INTO user_links (user_id, contact_id, link_type, link_url) VALUES (?, ?, ?, ?)", user_id, contact_id, link_type, link_url)
-#         return redirect(f"/contact-list/{list_id}")
-#     else:
-#         list_info = db.execute("SELECT * FROM lists WHERE id = ? AND user_id = ?", list_id, user_id)
-#         if not list_info:
-#             return redirect("/error")
-#         return render_template("add-contact.html", list_id=list_id)
 
 ### DONE
 def contact_list(list_id):

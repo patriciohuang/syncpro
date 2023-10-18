@@ -4,7 +4,7 @@ from flask import render_template, request, redirect, session
 db = SQL("sqlite:///syncpro.db")
 
 def index():
-    user_id = session["user_id"]
+    user_id = session["id"]
     lists = db.execute("SELECT id, list_name FROM lists WHERE user_id = ?", user_id)
     profiles = db.execute("SELECT * FROM profiles WHERE user_id = ? ORDER BY id DESC", user_id)
     if profiles:
@@ -15,7 +15,7 @@ def index():
 
 def add_list():
     if request.method == "POST":
-        user_id = session["user_id"]
+        user_id = session["id"]
         listname = request.form.get("listname")
 
         db.execute("INSERT INTO lists (user_id, list_name) VALUES (?, ?)", user_id, listname)
@@ -35,7 +35,7 @@ def edit_list(list_id):
             current_list_name = current_list_name[0]["list_name"]
             return render_template("edit-list.html", list_id=list_id, current_list_name=current_list_name)
         else:
-            return redirect("/error")
+            return render_template("error.html", error_message="Couldn't find the list")
 
 
 def delete_list(list_id):
@@ -45,4 +45,4 @@ def delete_list(list_id):
 
         return redirect("/")
     else:
-        return redirect("/error")
+        return render_template("error.html", error_message="Couldn't delete the list")

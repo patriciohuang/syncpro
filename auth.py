@@ -9,6 +9,8 @@ def login():
     if request.method == "POST":
         username = request.form.get("username").title()
         password = request.form.get("password")
+        redirect_url = request.args.get("redirect", "/")
+        print(redirect_url)
         if not username:
             return render_template("login.html")
         elif not password:
@@ -16,10 +18,19 @@ def login():
         rows = db.execute("SELECT * FROM users WHERE username = ?", username)
         if len(rows) != 1 or not check_password_hash(rows[0]["password_hash"], password):
             return render_template("login.html", invalid=True)
-        session["user_id"] = rows[0]["id"]
-        return redirect("/")
+        session["id"] = rows[0]["id"]
+
+        if redirect_url:
+            return redirect(redirect_url)
+        else:
+            return redirect("/")
     else:
-        return render_template("login.html")
+        redirect_url = request.args.get("redirect", "/")
+        if redirect_url:
+            redirect_param = f"?redirect={redirect_url}"
+        else:
+            redirect_param = ""
+        return render_template("login.html", redirect_param=redirect_param)
 
 def logout():
     session.clear()
@@ -30,6 +41,7 @@ def register():
     if request.method == "POST":
         username = request.form.get("username").title()
         password = request.form.get("password")
+        redirect_url = request.args.get("redirect")
 
         existing_user = db.execute("SELECT * FROM users WHERE username = ?", username)
         if existing_user:
@@ -39,9 +51,11 @@ def register():
         db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", username, hashed_password)
 
         row = db.execute("SELECT * FROM users WHERE username = ?", username)
-        session["user_id"] = row[0]["id"]
-        db.execute("INSERT INTO lists (user_id, list_name) VALUES (?, ?)", session["user_id"], 'My contacts')
+        session["id"] = row[0]["id"]
+        db.execute("INSERT INTO lists (user_id, list_name) VALUES (?, ?)", session["id"], 'My contacts')
         image = "static/user-avatar.png"
-        db.execute("INSERT INTO profiles (profile_name, first_name, last_name, number, address, email, image, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 'My profile', username, '', '', '', '', image, session["user_id"])
+        db.execute("INSERT INTO profiles (profile_name, first_name, last_name, number, address, email, image, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 'My profile', username, '', '', '', '', image, session["id"])
+        if redirect_url:
+            return redirect("/" + redirect_url)
         return redirect("/")
     return render_template("register.html")
