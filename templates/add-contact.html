@@ -20,15 +20,18 @@
     <div class="container pb-2 px-4">
       <h2 class="mb-5">Add to my list</h2>
       <form id="add-contact-form" action="/add-contact/{{ profile_id }}" method="post">
-        <select class="form-select" name="selected_list" aria-label="Default select example">
-          <option selected disabled>Select one list</option>
-            {% for list in lists %}
-              <option value="{{ list.id }}">{{ list.list_name }}</option>
-            {% endfor %}
-          </select>
+        {% for list in lists %}
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="selected_list" value="{{ list.id }}" id="list_{{ list.id }}">
+                <label class="form-check-label" for="list_{{ list.id }}">
+                    {{ list.list_name }}
+                </label>
+            </div>
+        {% endfor %}
         <button id="add-contact" type="submit" class="btn btn-secondary my-3 w-100">
-          <i class="fa-solid fa-plus"></i>
-          Add</button>
+            <i class="fa-solid fa-arrow-right-arrow-left me-2"></i>
+            Add
+        </button>
       </form>
     </div>
   </div>

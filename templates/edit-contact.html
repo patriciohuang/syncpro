@@ -2,7 +2,7 @@
 
 {% block nav %}
 <div class="container-fluid">
-  <a href="/profile-detail/{{ profile_id }}">
+  <a href="/profile-detail/{{ profile[0]["id"] }}">
     <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
     contact
   </a>
@@ -18,17 +18,22 @@
 <section>
   <div>
     <div class="container pb-2 px-4">
-      <h2 class="mb-5">Editing {{ profile[0]["first_name"] }}{{ profile[0]["last_name"] }} in {{ current_list[0]["list_name"] }}</h2>
+      <h2 class="mb-5">Editing {{ profile[0]["first_name"] }}{{ profile[0]["last_name"] }}</h2>
       <form id="edit-contact-form" action="/profile-detail/edit-contact/{{ profile[0]["id"] }}" method="post">
-        <select class="form-select" name="selected_list" aria-label="Default select example">
-          <option selected disabled>{{ lists[0]["list_name"] }}</option>
-            {% for list in lists %}
-              <option value="{{ list.id }}">{{ list.list_name }}</option>
-            {% endfor %}
-        </select>
+        {% for list in lists %}
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="selected_lists" value="{{ list.id }}" id="list_{{ list.id }}"
+            {% if list.id in current_list_ids %}
+              checked
+            {% endif %}>
+            <label class="form-check-label" for="list_{{ list.id }}">
+              {{ list.list_name }}
+            </label>
+          </div>
+        {% endfor %}
         <button id="add-contact" type="submit" class="btn btn-secondary my-3 w-100">
-          <i class="fa-solid fa-plus"></i>
-          Move</button>
+          Done
+        </button>
       </form>
     </div>
   </div>

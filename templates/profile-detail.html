@@ -5,11 +5,18 @@
     {% if user_id == profile[0].user_id %}
       <a href="/">
         <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+        Home
       </a>
     {% endif %}
-    {% if not user_id == profile[0].user_id %}
+    {% if exist_contact %}
       <a href="/contact-list/{{ exist_contact[0]["list_id"] }}">
         <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+      </a>
+    {% endif %}
+    {% if not user_id == profile[0].user_id and not exist_contact and user_id %}
+      <a href="/">
+        <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+        Home
       </a>
     {% endif %}
   </div>
@@ -22,7 +29,7 @@
 {% block main %}
   <section class="section">
     <div class="d-flex flex-column align-items-center">
-      <div id="copy-notification" style="display: none" class="alert alert-success position-absolute top-0 w-100">URL copied to clipboard!</div>
+      <div id="copy-notification" style="display: none" class="alert alert-success text-center position-absolute top-0 w-100">URL copied to clipboard!</div>
       {% for data in profile %}
       <img class="card-img-top" src="/{{ data.image }}" alt="User avatar">
       <div class="w-100">
@@ -35,13 +42,13 @@
         <div class="mb-5">
           {% if data.address %}
           <div class="d-flex border rounded mb-3 p-1">
-            <i class="fa-solid fa-location-dot p-2 lh-base"></i>
+            <i class="fa-solid fa-location-dot p-2 lh-base me-2"></i>
             <p for="number" class="p-2 my-0 text-center w-100">{{ data.address }}</p>
             </div>
             {% endif %}
             {% if data.email %}
             <div class="d-flex border rounded mb-3 p-1">
-              <i class="fa-solid fa-envelope p-2 lh-base"></i>
+              <i class="fa-solid fa-envelope p-2 me-2 lh-base"></i>
               <p for="number" class="p-2 my-0 text-center w-100">{{ data.email }}</p>
             </div>
             {% endif %}
@@ -66,7 +73,7 @@
           {% if not exist_contact and not user_id == profile[0].user_id or not user_id %}
           <a href="/add-contact/{{ profile_id }}" class="form-floating">
             <button id="share-profile" class="btn btn-primary mb-3 w-100">
-              <i class="fa-solid fa-plus"></i>
+              <i class="fa-solid fa-plus me-2"></i>
               Add to contact
             </button>
           </a>
@@ -76,23 +83,22 @@
           {% if user_id == profile[0].user_id %}
             <button class="edit btn btn-secondary mb-3 w-100">
               <a href="edit-profile/{{ profile_id }}">
-                <i class="fa-regular fa-pen-to-square"></i>
+                <i class="fa-regular me-2 fa-pen-to-square"></i>
                 Edit profile
               </a>
             </button>
           {% endif %}
-          {% if not user_id == profile[0].user_id %}
+          {% if not user_id == profile[0].user_id and exist_contact %}
             <button class="edit btn btn-secondary mb-3 w-100">
               <a href="edit-contact/{{ profile_id }}">
-                <i class="fa-solid fa-arrow-right-arrow-left"></i>
-                <input type="hidden" name="move">
-                Move to
+                <i class="fa-regular fa-pen-to-square me-2"></i>
+                Edit contact
               </a>
             </button>
           {% endif %}
           {% if user_id == profile[0].user_id %}
             <button id="share-profile" class="btn btn-secondary mb-3 w-100">
-              <i class="fa-regular fa-share-square"></i>
+              <i class="fa-regular fa-share-square me-2"></i>
               Share Profile</button>
             <input type="hidden" id="profile-id" value="{{ profile_id }}">
             <script>
@@ -116,7 +122,7 @@
             </script>
             {% for data in profile %}
               <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ data.id }}">
-                <i class="fa-solid fa-trash-can"></i>
+                <i class="fa-solid fa-trash-can me-2"></i>
                 Delete
               </button>
               {% set data = data %}
@@ -128,10 +134,11 @@
                 });
               </script>
             {% endfor %}
-          {% else %}
+          {% endif %}
+          {% if exist_contact %}
             {% for data in profile %}
               <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ data.id }}">
-                <i class="fa-solid fa-trash-can"></i>
+                <i class="fa-solid fa-trash-can me-2"></i>
                 Delete
               </button>
               {% set data = data %}

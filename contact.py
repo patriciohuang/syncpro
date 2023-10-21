@@ -18,13 +18,14 @@ def contact_list(list_id):
 def add_contact(profile_id):
     user_id = session["id"]
     if request.method == "POST":
-        selected_list = request.form.get("selected_list")
-        exist_contact = db.execute("SELECT * FROM lists JOIN lists_profiles ON lists.id = lists_profiles.list_id WHERE lists.id = ? AND lists_profiles.profile_id = ?", selected_list, profile_id)
-        if exist_contact:
-            return redirect('/')
-        else:
-            db.execute("INSERT INTO lists_profiles (list_id, profile_id) VALUES (?, ?)", selected_list, profile_id)
-            return redirect('/')
+        selected_list = request.form.getlist("selected_list")
+        for list_id in selected_list:
+            exist_contact = db.execute("SELECT * FROM lists JOIN lists_profiles ON lists.id = lists_profiles.list_id WHERE lists.id = ? AND lists_profiles.profile_id = ?", list_id, profile_id)
+            if exist_contact:
+                return redirect('/')
+            else:
+                db.execute("INSERT INTO lists_profiles (list_id, profile_id) VALUES (?, ?)", list_id, profile_id)
+        return redirect('/')
     else:
         lists = db.execute("SELECT * FROM lists WHERE user_id = ?", user_id)
         if not lists:
@@ -35,14 +36,21 @@ def add_contact(profile_id):
 def edit_contact(profile_id):
     user_id = session["id"]
     profile = db.execute("SELECT * FROM profiles WHERE id = ?", profile_id)
+    current_list = db.execute("SELECT list_id FROM lists_profiles WHERE profile_id = ?", profile_id)
+    current_list_ids = {item['list_id'] for item in current_list}
     if request.method == "POST":
-        list_id = request.form.get("selected_list")
-        db.execute("UPDATE lists_profiles SET list_id = ? WHERE profile_id = ?", list_id, profile_id)
-        return redirect(f"/contact-list/{list_id}")
+        selected_lists = set(map(int, request.form.getlist("selected_lists")))
+
+        for list_id in selected_lists - current_list_ids:
+            db.execute("INSERT INTO lists_profiles (list_id, profile_id) VALUES (?, ?)", list_id, profile_id)
+
+        for list_id in current_list_ids - selected_lists:
+            db.execute("DELETE FROM lists_profiles WHERE list_id = ? AND profile_id = ?", list_id, profile_id)
+        return redirect(f"/profile-detail/{profile_id}")
     else:
         lists = db.execute("SELECT * FROM lists WHERE user_id = ?", user_id)
-        current_list = db.execute("SELECT * FROM lists JOIN lists_profiles AS lp ON lp.list_id = lists.id WHERE user_id = ? AND lp.profile_id = ?", user_id, profile_id)
-        return render_template("edit-contact.html", profile=profile, lists=lists , current_list=current_list)
+        return render_template("edit-contact.html", profile=profile, lists=lists, current_list=current_list, current_list_ids=current_list_ids)
+
 
 def delete_contact(profile_id):
     user_id = session["id"]

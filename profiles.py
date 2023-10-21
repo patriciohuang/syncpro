@@ -20,7 +20,6 @@ def profile_detail(profile_id):
     exist_contact = 0
     links = db.execute("SELECT * FROM profile_links WHERE profile_id = ?", profile_id)
     exist_contact = db.execute("SELECT * FROM profiles JOIN lists_profiles AS lp ON lp.profile_id = profiles.id JOIN lists ON lp.list_id = lists.id WHERE profiles.id = ? AND lists.user_id = ?", profile_id, user_id)
-    print(exist_contact)
 
     return render_template("profile-detail.html", links=links, profile=profile, profile_id=profile_id, user_id=user_id, exist_contact=exist_contact)
 
