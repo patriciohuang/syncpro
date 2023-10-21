@@ -3,7 +3,6 @@ from flask import render_template, request, redirect, session
 import requests
 from bs4 import BeautifulSoup
 from helpers import get_favicon_url
-from urllib.parse import urlsplit
 
 db = SQL("sqlite:///syncpro.db")
 
@@ -18,9 +17,12 @@ def profile_detail(profile_id):
     user_id = user_id
     profile = db.execute("SELECT * FROM profiles WHERE id = ?", profile_id)
     profile_id = profile[0]["id"]
+    exist_contact = 0
     links = db.execute("SELECT * FROM profile_links WHERE profile_id = ?", profile_id)
+    exist_contact = db.execute("SELECT * FROM profiles JOIN lists_profiles AS lp ON lp.profile_id = profiles.id JOIN lists ON lp.list_id = lists.id WHERE profiles.id = ? AND lists.user_id = ?", profile_id, user_id)
+    print(exist_contact)
 
-    return render_template("profile-detail.html", links=links, profile=profile, profile_id=profile_id, user_id=user_id)
+    return render_template("profile-detail.html", links=links, profile=profile, profile_id=profile_id, user_id=user_id, exist_contact=exist_contact)
 
 def add_profile():
     user_id = session["id"]

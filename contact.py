@@ -8,6 +8,12 @@ db = SQL("sqlite:///syncpro.db")
 from flask import request, redirect, session, url_for
 
 # ... your other imports and code ...
+def contact_list(list_id):
+    list_id = int(list_id)
+    profiles = db.execute("SELECT * FROM profiles JOIN lists_profiles AS lp ON lp.profile_id = profiles.id JOIN lists ON lp.list_id = lists.id WHERE lists.id = ?", list_id)
+    lists = db.execute("SELECT * FROM lists WHERE id = ?", list_id)
+    list_name = lists[0]["list_name"]
+    return render_template("contact-list.html", list_id=list_id, profiles=profiles, list_name=list_name)
 
 def add_contact(profile_id):
     user_id = session["id"]
@@ -26,14 +32,27 @@ def add_contact(profile_id):
             lists = db.execute("SELECT * FROM lists WHERE user_id = ?", user_id)
         return render_template("add-contact.html", lists=lists, profile_id=profile_id)
 
+def edit_contact(profile_id):
+    user_id = session["id"]
+    profile = db.execute("SELECT * FROM profiles WHERE id = ?", profile_id)
+    if request.method == "POST":
+        list_id = request.form.get("selected_list")
+        db.execute("UPDATE lists_profiles SET list_id = ? WHERE profile_id = ?", list_id, profile_id)
+        return redirect(f"/contact-list/{list_id}")
+    else:
+        lists = db.execute("SELECT * FROM lists WHERE user_id = ?", user_id)
+        current_list = db.execute("SELECT * FROM lists JOIN lists_profiles AS lp ON lp.list_id = lists.id WHERE user_id = ? AND lp.profile_id = ?", user_id, profile_id)
+        return render_template("edit-contact.html", profile=profile, lists=lists , current_list=current_list)
 
-### DONE
-def contact_list(list_id):
-    list_id = int(list_id)
-    profiles = db.execute("SELECT * FROM profiles JOIN lists_profiles AS lp ON lp.profile_id = profiles.id JOIN lists ON lp.list_id = lists.id WHERE lists.id = ?", list_id)
-    lists = db.execute("SELECT * FROM lists WHERE id = ?", list_id)
-    list_name = lists[0]["list_name"]
-    return render_template("contact-list.html", list_id=list_id, profiles=profiles, list_name=list_name)
+def delete_contact(profile_id):
+    user_id = session["id"]
+    list_id = db.execute("SELECT id FROM lists JOIN lists_profiles AS lp ON lp.list_id = lists.id WHERE lp.profile_id = ? AND lists.user_id = ?", profile_id, user_id)
+    if list_id:
+        list_id = list_id[0]["id"]
+        db.execute("DELETE FROM lists_profiles WHERE list_id = ? AND profile_id = ?", list_id, profile_id)
+        return redirect(f"/contact-list/{list_id}")
+    else:
+        return render_template("error.html", error_message="Couldn't delete the contact")
 
 
 # def contact_detail(contact_id):

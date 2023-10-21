@@ -12,7 +12,11 @@ def login_required(f):
         if session.get("id") is None:
             url_path = request.path
             login_url = f"/login?redirect={url_path}"
-            return redirect(login_url)
+            register_url = f"/register?redirect={url_path}"
+            if login_url:
+                return redirect(login_url)
+            if register_url:
+                return redirect(register_url)
         return f(*args, **kwargs)
     return decorated_function
 

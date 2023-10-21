@@ -10,7 +10,6 @@ def login():
         username = request.form.get("username").title()
         password = request.form.get("password")
         redirect_url = request.args.get("redirect", "/")
-        print(redirect_url)
         if not username:
             return render_template("login.html")
         elif not password:
@@ -56,6 +55,13 @@ def register():
         image = "static/user-avatar.png"
         db.execute("INSERT INTO profiles (profile_name, first_name, last_name, number, address, email, image, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 'My profile', username, '', '', '', '', image, session["id"])
         if redirect_url:
-            return redirect("/" + redirect_url)
-        return redirect("/")
-    return render_template("register.html")
+            return redirect(redirect_url)
+        else:
+            return redirect("/")
+    else:
+        redirect_url = request.args.get("redirect", "/")
+        if redirect_url:
+            redirect_param = f"?redirect={redirect_url}"
+        else:
+            redirect_param = ""
+        return render_template("register.html", redirect_param=redirect_param)

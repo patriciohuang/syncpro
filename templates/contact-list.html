@@ -29,12 +29,12 @@
             <div id="searchResults">
                 {% for profile in profiles %}
                     <div class="d-flex justify-content-between border-top py-3">
-                        <a href="/profile-detail/{{ profile.profile_id }}" class="d-flex w-100">
+                        <a href="/profile-detail/{{ profile.profile_id }}" class="d-flex w-100 align-items-center">
                             <div class="user-icon me-3">
                                 <img src="/static/user-avatar.png" alt="User avatar" />
                             </div>
                             <div class="list-item-content">
-                                <h3 class="m-0 fs-4">{{ profile.first_name }}</h3>
+                                <p class="m-0 fs-4">{{ profile.first_name }} {{ profile.last_name }}</p>
                             </div>
                         </a>
                     </div>

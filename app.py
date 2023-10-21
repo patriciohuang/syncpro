@@ -3,7 +3,7 @@ from flask_session import Session
 
 from helpers import login_required
 from auth import login, logout, register
-from contact import contact_list, add_contact
+from contact import contact_list, add_contact, delete_contact, edit_contact
 from list import index, add_list, delete_list, edit_list
 from profiles import profile_detail, edit_profile, add_profile, delete_profile, profile_lists
 
@@ -92,6 +92,18 @@ def contact_list_route(list_id):
 @login_required
 def add_contact_route(profile_id):
     return add_contact(profile_id)
+
+"EDIT CONTACT"
+@app.route("/profile-detail/edit-contact/<int:profile_id>", methods=["GET", "POST"])
+@login_required
+def contact_edit_route(profile_id):
+    return edit_contact(profile_id)
+
+"DELETE CONTACT"
+@app.route("/delete-contact/<int:profile_id>")
+@login_required
+def delete_contact_route(profile_id):
+    return delete_contact(profile_id)
 
 # "CONTACT DETAIL"
 # @app.route("/contact-list/contact-detail/<int:contact_id>")

@@ -65,7 +65,7 @@ a, a:active, a:hover {
     height: 100px;
     background-color: #4F6273;
 }
-.profile-card p {
+.profile-card p, .edit a{
     color: white;
 }
 
@@ -73,6 +73,9 @@ a, a:active, a:hover {
     height: 90%;
 }
 
+.bar {
+    background-color: white;
+}
 @media (max-width: 768px) {
 
     .list-item-content {

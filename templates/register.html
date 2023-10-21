@@ -12,7 +12,7 @@
             <h1 class="fs-1 fw-bolder">Welcome!</h1>
             <p class="text-secondary">Create an account</p>
         </div>
-        <form class="container" id="registration-form" action="/register" method="post" onsubmit="return validateForm();">
+        <form class="container" id="registration-form" action="/register{{redirect_param}}" method="post" onsubmit="return validateForm();">
             <div class="mb-5">
                 <div class="form-floating mb-3">
                     <input type="text" name="username" class="form-control" id="username" placeholder="User name" autocomplete="off">
@@ -46,7 +46,7 @@
             <button class="btn btn-primary w-100 mb-3" type="submit">Register</button>
             <div class="d-flex">
                 <p class="me-3 text-secondary">Already a user?</p>
-                <a href="/login">Login</a>
+                <a href="/login{{redirect_param}}">Login</a>
             </div>
         </form>
     </section>

@@ -1,115 +1,149 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-<div class="container-fluid">
-  {% if user_id == profile[0].user_id %}
-    <a href="/">
-      <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
-    </a>
-  {% endif %}
-</div>
-<div class="container-fluid">
-  <img src="/static/logo-dark.png" alt="logo" class="logo">
-</div>
-<div class="container-fluid">
-  {% if user_id == profile[0].user_id %}
-    <a href="edit-profile/{{ profile_id }}">
-      <i class="fa-regular fa-pen-to-square fa-xl"></i>
-    </a>
-  {% endif %}
-</div>
+  <div class="container-fluid">
+    {% if user_id == profile[0].user_id %}
+      <a href="/">
+        <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+      </a>
+    {% endif %}
+    {% if not user_id == profile[0].user_id %}
+      <a href="/contact-list/{{ exist_contact[0]["list_id"] }}">
+        <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+      </a>
+    {% endif %}
+  </div>
+  <div class="container-fluid">
+    <img src="/static/logo-dark.png" alt="logo" class="logo">
+  </div>
+  <div class="container-fluid">
+  </div>
 {% endblock %}
-
 {% block main %}
-<section class="section">
-  <div class="d-flex flex-column align-items-center position-relative">
-    <div id="copy-notification" style="display: none" class="alert alert-success position-absolute top-0 w-100">URL copied to clipboard!</div>
-    {% for data in profile %}
-    <img class="card-img-top" src="/{{ data.image }}" alt="User avatar">
-    <div class="w-100">
-      <div class="text-center mt-4">
-        <h1>{{ data.first_name }} {{ data.last_name }}</h1>
-        {% if data.number %}
-        <p>+{{ data.number }}</p>
-        {% endif %}
-      </div>
-      <div class="mb-5">
-        {% if data.address %}
+  <section class="section">
+    <div class="d-flex flex-column align-items-center">
+      <div id="copy-notification" style="display: none" class="alert alert-success position-absolute top-0 w-100">URL copied to clipboard!</div>
+      {% for data in profile %}
+      <img class="card-img-top" src="/{{ data.image }}" alt="User avatar">
+      <div class="w-100">
+        <div class="text-center mt-4">
+          <h1>{{ data.first_name }} {{ data.last_name }}</h1>
+          {% if data.number %}
+          <p>+{{ data.number }}</p>
+          {% endif %}
+        </div>
+        <div class="mb-5">
+          {% if data.address %}
           <div class="d-flex border rounded mb-3 p-1">
             <i class="fa-solid fa-location-dot p-2 lh-base"></i>
             <p for="number" class="p-2 my-0 text-center w-100">{{ data.address }}</p>
-          </div>
-        {% endif %}
-        {% if data.email %}
-          <div class="d-flex border rounded mb-3 p-1">
-            <i class="fa-solid fa-envelope p-2 lh-base"></i>
-            <p for="number" class="p-2 my-0 text-center w-100">{{ data.email }}</p>
-          </div>
-        {% endif %}
-        {% if links %}
-          {% for link in links %}
+            </div>
+            {% endif %}
+            {% if data.email %}
+            <div class="d-flex border rounded mb-3 p-1">
+              <i class="fa-solid fa-envelope p-2 lh-base"></i>
+              <p for="number" class="p-2 my-0 text-center w-100">{{ data.email }}</p>
+            </div>
+            {% endif %}
+            {% if links %}
+            {% for link in links %}
             <div class="mb-3">
               <a href="{{ link.link_url }}" target="_blank" class="form-floating">
                 <div class="d-flex border rounded mb-3 p-1 align-items-center">
                   {% if link.icon %}
-                    <div class="icon">
-                      <img src="{{ link.icon }}" alt="icon" class="p-2 lh-base">
-                    </div>
+                  <div class="icon">
+                    <img src="{{ link.icon }}" alt="icon" class="p-2 lh-base">
+                  </div>
                   {% endif %}
                   <p class="p-2 my-0 text-center w-100">{{ link.link_title }}</p>
                 </div>
               </a>
             </div>
+            {% endfor %}
+            {% endif %}
+          </div>
           {% endfor %}
-        {% endif %}
-      </div>
-      {% endfor %}
-      {% if user_id == profile[0].user_id %}
-        <button id="share-profile" class="btn btn-secondary mb-3 w-100">
-          <i class="fa-regular fa-share-square"></i>
-          Share Profile</button>
-        <input type="hidden" id="profile-id" value="{{ profile_id }}">
-        <script>
-          document.getElementById("share-profile").addEventListener("click", function () {
-            const profileId = document.getElementById("profile-id").value;
-            const sharingUrl = `/profile-detail/${profileId}`;
-            const tempInput = document.createElement("input");
-            tempInput.value = window.location.origin + sharingUrl;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-            // Show the notification message
-            const copyNotification = document.getElementById("copy-notification");
-            copyNotification.style.display = "block";
-            // Hide the notification message after a few seconds (e.g., 3 seconds)
-            setTimeout(function () {
-              copyNotification.style.display = "none";
-            }, 3000); // 3000 milliseconds = 3 seconds
-          });
-        </script>
-        {% for data in profile %}
-          <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ data.id }}">
-            <i class="fa-solid fa-trash-can"></i>
-            Delete
-          </button>
-          {% set data = data %}
-          {% include "modal.html" %}
-          <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              document.querySelector("#delete-link-{{ data.id }}").href = "/delete-profile/{{ data.id }}";
-              document.querySelector("#item-{{ data.id }}").textContent = "{{ data.first_name }}";
-            });
-          </script>
-        {% endfor %}
-      {% else %}
-        <a href="/add-contact/{{ profile_id }}" class="form-floating">
-          <button id="share-profile" class="btn btn-primary mb-3 w-100">
+          {% if not exist_contact and not user_id == profile[0].user_id or not user_id %}
+          <a href="/add-contact/{{ profile_id }}" class="form-floating">
+            <button id="share-profile" class="btn btn-primary mb-3 w-100">
               <i class="fa-solid fa-plus"></i>
               Add to contact
-          </button>
-        </a>
-      {% endif %}
-    </div>
-</section>
-{% endblock %}
+            </button>
+          </a>
+          {% endif %}
+        </div>
+        <div class="w-100">
+          {% if user_id == profile[0].user_id %}
+            <button class="edit btn btn-secondary mb-3 w-100">
+              <a href="edit-profile/{{ profile_id }}">
+                <i class="fa-regular fa-pen-to-square"></i>
+                Edit profile
+              </a>
+            </button>
+          {% endif %}
+          {% if not user_id == profile[0].user_id %}
+            <button class="edit btn btn-secondary mb-3 w-100">
+              <a href="edit-contact/{{ profile_id }}">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <input type="hidden" name="move">
+                Move to
+              </a>
+            </button>
+          {% endif %}
+          {% if user_id == profile[0].user_id %}
+            <button id="share-profile" class="btn btn-secondary mb-3 w-100">
+              <i class="fa-regular fa-share-square"></i>
+              Share Profile</button>
+            <input type="hidden" id="profile-id" value="{{ profile_id }}">
+            <script>
+              document.getElementById("share-profile").addEventListener("click", function () {
+                const profileId = document.getElementById("profile-id").value;
+                const sharingUrl = `/profile-detail/${profileId}`;
+                const tempInput = document.createElement("input");
+                tempInput.value = window.location.origin + sharingUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                // Show the notification message
+                const copyNotification = document.getElementById("copy-notification");
+                copyNotification.style.display = "block";
+                // Hide the notification message after a few seconds (e.g., 3 seconds)
+                setTimeout(function () {
+                  copyNotification.style.display = "none";
+                }, 3000); // 3000 milliseconds = 3 seconds
+              });
+            </script>
+            {% for data in profile %}
+              <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ data.id }}">
+                <i class="fa-solid fa-trash-can"></i>
+                Delete
+              </button>
+              {% set data = data %}
+              {% include "modal.html" %}
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  document.querySelector("#delete-link-{{ data.id }}").href = "/delete-profile/{{ data.id }}";
+                  document.querySelector("#item-{{ data.id }}").textContent = "{{ data.first_name }}";
+                });
+              </script>
+            {% endfor %}
+          {% else %}
+            {% for data in profile %}
+              <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#modal-{{ data.id }}">
+                <i class="fa-solid fa-trash-can"></i>
+                Delete
+              </button>
+              {% set data = data %}
+              {% include "modal.html" %}
+              <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                  document.querySelector("#delete-link-{{ data.id }}").href = "/delete-contact/{{ data.id }}";
+                  document.querySelector("#item-{{ data.id }}").textContent = "{{ data.first_name }}";
+                });
+              </script>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </section>
+      {% endblock %}
