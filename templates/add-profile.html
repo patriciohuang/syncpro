@@ -1,53 +1,54 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid">
-        <a href="/">
-            <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
-        </a>
-    </div>
-    <div class="container-fluid">
-        <p class="logo fs-3">Add profile</p>
-    </div>
-    <div class="container-fluid"></div>
+<div class="container-fluid">
+  <a href="/">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+  </a>
+</div>
+<div class="container-fluid">
+  <p class="logo fs-3">Add profile</p>
+</div>
+<div class="container-fluid"></div>
 {% endblock %}
 
 {% block main %}
-    <section class="section">
-        <form id="add-contact-form" action="/add-profile" method="post" onsubmit="return validateForm();">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="profilename" id="profilename" placeholder="Profile name">
-                <label for="profilename">Profile name</label>
-                <div class="error-message" id="profilename-error"></div>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First name">
-                <label for="firstname">First name</label>
-                <div class="error-message" id="firstname-error"></div>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last name">
-                <label for="lastname">Last name</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="number" class="form-control" name="number" id="number" placeholder="Number">
-                <label for="number">Number</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="address" id="address" placeholder="Address" autocomplete="off">
-                <label for="address">Address</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" autocomplete="off">
-                <label for="email">Email</label>
-            </div>
-            <div id="url-container" class="form-floating">
-            </div>
-            <div class="form-floating mb-3">
-                <input type="button" id="addurl" class="form-control" onclick="addURL()" placeholder="https://example.com">
-                <label for="addurl"><i class="fas fa-plus me-2"></i> Add URL</label>
-            </div>
-            <button class="btn btn-secondary w-100" type="submit">Add</button>
-        </form>
-    </section>
+<section class="section">
+  <form id="add-contact-form" action="/add-profile" method="post" onsubmit="return validateForm();">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="profilename" id="profilename" placeholder="Profile name">
+      <label for="profilename">Profile name</label>
+      <div class="error-message" id="profilename-error"></div>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First name">
+      <label for="firstname">First name</label>
+      <div class="error-message" id="firstname-error"></div>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last name">
+      <label for="lastname">Last name</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="number" class="form-control" name="number" id="number" placeholder="Number">
+      <label for="number">Number</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="address" id="address" placeholder="Address" autocomplete="off">
+      <label for="address">Address</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com"
+        autocomplete="off">
+      <label for="email">Email</label>
+    </div>
+    <div id="url-container" class="form-floating">
+    </div>
+    <div class="form-floating mb-3">
+      <input type="button" id="addurl" class="form-control" onclick="addURL()" placeholder="https://example.com">
+      <label for="addurl"><i class="fas fa-plus me-2"></i> Add URL</label>
+    </div>
+    <button class="btn btn-secondary w-100" type="submit">Add</button>
+  </form>
+</section>
 {% endblock %}

@@ -1,33 +1,33 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid">
-      <a href="/">
-          <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
-      </a>
-    </div>
-    <div class="container-fluid">
-      <p class="logo fs-3">My profiles</p>
-    </div>
-    <div class="container-fluid">
-      <a href="/add-profile">Add</a>
-    </div>
+<div class="container-fluid">
+  <a href="/">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+  </a>
+</div>
+<div class="container-fluid">
+  <p class="logo fs-3">My profiles</p>
+</div>
+<div class="container-fluid">
+  <a href="/add-profile">Add</a>
+</div>
 {% endblock %}
 
 {% block main %}
-    <section>
-        <div class="mb-5">
-            {% for profile in profiles %}
-            <div class="container px-4">
-                <div class="d-flex justify-content-between rounded p-3 mb-2 profile-card">
-                    <a href="profile-detail/{{ profile.id }}" class="d-flex w-100">
-                        <div>
-                            <p class="m-0 fs-4">{{ profile.profile_name }}</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
+<section>
+  <div class="mb-5">
+    {% for profile in profiles %}
+    <div class="container px-4">
+      <div class="d-flex justify-content-between rounded p-3 mb-2 profile-card">
+        <a href="profile-detail/{{ profile.id }}" class="d-flex w-100">
+          <div>
+            <p class="m-0 fs-4">{{ profile.profile_name }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

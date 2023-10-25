@@ -1,44 +1,44 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid">
-        <a href="/">
-            <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
-            List
-        </a>
-    </div>
-    <div class="container-fluid">
-        <img src="/static/logo-dark.png" alt="logo" class="logo">
-    </div>
-    <div class="container-fluid"></div>
+<div class="container-fluid">
+  <a href="/">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+    List
+  </a>
+</div>
+<div class="container-fluid">
+  <img src="/static/logo-dark.png" alt="logo" class="logo">
+</div>
+<div class="container-fluid"></div>
 {% endblock %}
 
 {% block main %}
-    <section class="section">
-        <h1 class="mb-5">Add list</h1>
-        <form id="add-contact-form" action="/add-list" method="post" onsubmit="return validateForm();">
-            <div class="form-floating mb-5">
-                <input type="text" class="form-control" name="listname" id="listname" placeholder="List name">
-                <label for="floatingInput">List name</label>
-                <div class="error-message" style="height: 10px" id="listname-error"></div>
-            </div>
-            <button class="btn btn-secondary w-100" type="submit">Add list</button>
-        </form>
-    </section>
+<section class="section">
+  <h1 class="mb-5">Add list</h1>
+  <form id="add-contact-form" action="/add-list" method="post" onsubmit="return validateForm();">
+    <div class="form-floating mb-5">
+      <input type="text" class="form-control" name="listname" id="listname" placeholder="List name">
+      <label for="floatingInput">List name</label>
+      <div class="error-message" style="height: 10px" id="listname-error"></div>
+    </div>
+    <button class="btn btn-secondary w-100" type="submit">Add list</button>
+  </form>
+</section>
 
-    <script>
-        function validateForm() {
-            let listname = document.getElementById("listname").value;
-            let isValid = true;
+<script>
+  function validateForm() {
+    let listname = document.getElementById("listname").value;
+    let isValid = true;
 
-            document.getElementById("listname-error").textContent = "";
+    document.getElementById("listname-error").textContent = "";
 
-            if (!listname) {
-                document.getElementById("listname-error").textContent = "Please enter a list name.";
-                isValid = false;
-            }
+    if (!listname) {
+      document.getElementById("listname-error").textContent = "Please enter a list name.";
+      isValid = false;
+    }
 
-            return isValid;
-        }
-    </script>
+    return isValid;
+  }
+</script>
 {% endblock %}

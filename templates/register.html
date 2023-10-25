@@ -1,96 +1,100 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid text-center">
-        <img src="/static/logo-dark.png" alt="logo" class="logo">
-    </div>
+<div class="container-fluid text-center">
+  <img src="/static/logo-dark.png" alt="logo" class="logo">
+</div>
 {% endblock %}
 
 {% block main %}
-    <section class="container auth">
-        <div class="container pb-5">
-            <h1 class="fs-1 fw-bolder">Welcome!</h1>
-            <p class="text-secondary">Create an account</p>
+<section class="container auth">
+  <div class="container pb-5">
+    <h1 class="fs-1 fw-bolder">Welcome!</h1>
+    <p class="text-secondary">Create an account</p>
+  </div>
+  <form class="container" id="registration-form" action="/register{{redirect_param}}" method="post"
+    onsubmit="return validateRegisterForm();">
+    <div class="mb-5">
+      <div class="form-floating mb-3">
+        <input type="email" name="email" class="form-control" id="email" placeholder="example@email.com"
+          autocomplete="off">
+        <label for="email" class="text-secondary">
+          <i class="fa-solid fa-user me-2"></i>
+          example@email.com
+        </label>
+        <div class="error-message mb-3" style="height: 10px" id="email-error">
+          {% if existing_user %}
+          User name is already taken.
+          {% endif %}
         </div>
-        <form class="container" id="registration-form" action="/register{{redirect_param}}" method="post" onsubmit="return validateRegisterForm();">
-            <div class="mb-5">
-                <div class="form-floating mb-3">
-                    <input type="email" name="email" class="form-control" id="email" placeholder="example@email.com" autocomplete="off">
-                    <label for="email" class="text-secondary">
-                        <i class="fa-solid fa-user me-2"></i>
-                        example@email.com
-                    </label>
-                    <div class="error-message mb-3" style="height: 10px" id="email-error">
-                        {% if existing_user %}
-                            User name is already taken.
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="input-group form-floating">
-                    <input type="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
-                    <label for="password" class="text-secondary">
-                        <i class="fa-solid fa-lock me-2"></i>
-                        Password
-                    </label>
-                    <div class="input-group-text" onclick="togglePasswordVisibility('password')" style="cursor: pointer;">
-                        <i class="fa-solid fa-eye me-2" onclick="togglePasswordVisibility('password')"></i>
-                    </div>
-                </div>
-                <div class="error-message mb-3" style="height: 10px" id="password-error"></div>
-                <div class="input-group form-floating">
-                    <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm password" type="password" autocomplete="off">
-                    <label for="confirmation" class="text-secondary">
-                        <i class="fa-solid fa-lock me-2"></i>
-                        Confirm password
-                    </label>
-                    <div class="input-group-text" onclick="togglePasswordVisibility('confirmation')" style="cursor: pointer;">
-                        <i class="fa-solid fa-eye me-2"></i>
-                    </div>
-                </div>
-                <div class="error-message mb-3" style="height: 10px" id="confirmation-error"></div>
-            </div>
-            <button class="btn btn-primary w-100 mb-3" type="submit">Register</button>
-            <div class="d-flex">
-                <p class="me-3 text-secondary">Already a user?</p>
-                <a href="/login{{redirect_param}}">Login</a>
-            </div>
-        </form>
-    </section>
-    <script>
-        function validateRegisterForm() {
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-            let confirmation = document.getElementById("confirmation").value;
-            let isValid = true;
+      </div>
+      <div class="input-group form-floating">
+        <input type="password" name="password" class="form-control" id="password" placeholder="Password"
+          autocomplete="off">
+        <label for="password" class="text-secondary">
+          <i class="fa-solid fa-lock me-2"></i>
+          Password
+        </label>
+        <div class="input-group-text" onclick="togglePasswordVisibility('password')" style="cursor: pointer;">
+          <i class="fa-solid fa-eye me-2" onclick="togglePasswordVisibility('password')"></i>
+        </div>
+      </div>
+      <div class="error-message mb-3" style="height: 10px" id="password-error"></div>
+      <div class="input-group form-floating">
+        <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm password" type="password"
+          autocomplete="off">
+        <label for="confirmation" class="text-secondary">
+          <i class="fa-solid fa-lock me-2"></i>
+          Confirm password
+        </label>
+        <div class="input-group-text" onclick="togglePasswordVisibility('confirmation')" style="cursor: pointer;">
+          <i class="fa-solid fa-eye me-2"></i>
+        </div>
+      </div>
+      <div class="error-message mb-3" style="height: 10px" id="confirmation-error"></div>
+    </div>
+    <button class="btn btn-primary w-100 mb-3" type="submit">Register</button>
+    <div class="d-flex">
+      <p class="me-3 text-secondary">Already a user?</p>
+      <a href="/login{{redirect_param}}">Login</a>
+    </div>
+  </form>
+</section>
+<script>
+  function validateRegisterForm() {
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let confirmation = document.getElementById("confirmation").value;
+    let isValid = true;
 
-            document.getElementById("email-error").textContent = "";
-            document.getElementById("password-error").textContent = "";
-            document.getElementById("confirmation-error").textContent = "";
+    document.getElementById("email-error").textContent = "";
+    document.getElementById("password-error").textContent = "";
+    document.getElementById("confirmation-error").textContent = "";
 
-            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
-            if (!email || !email.match(emailPattern)) {
-                document.getElementById("email-error").textContent = "Please enter a valid email address.";
-                isValid = false;
-            }
+    if (!email || !email.match(emailPattern)) {
+      document.getElementById("email-error").textContent = "Please enter a valid email address.";
+      isValid = false;
+    }
 
-            if (!password) {
-                document.getElementById("password-error").textContent = "Please enter a password.";
-                isValid = false;
-            }
+    if (!password) {
+      document.getElementById("password-error").textContent = "Please enter a password.";
+      isValid = false;
+    }
 
-            if (!confirmation) {
-                document.getElementById("confirmation-error").textContent = "Please confirm your password.";
-                isValid = false;
-            }
+    if (!confirmation) {
+      document.getElementById("confirmation-error").textContent = "Please confirm your password.";
+      isValid = false;
+    }
 
-            if (password !== confirmation) {
-                document.getElementById("confirmation-error").textContent = "Passwords do not match.";
-                isValid = false;
-            }
+    if (password !== confirmation) {
+      document.getElementById("confirmation-error").textContent = "Passwords do not match.";
+      isValid = false;
+    }
 
-            return isValid;
-        }
-    </script>
+    return isValid;
+  }
+</script>
 
 {% endblock %}

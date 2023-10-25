@@ -1,71 +1,69 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid">
-        <a href="/">
-            <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
-        </a>
-    </div>
-    <div class="container-fluid">
-        <p class="logo fs-3 p-0">{{ list_name }}</p>
-    </div>
-    <div class="container">
-        <a href="/user-detail" class="user-icon"><img src="/{{ avatar }}" alt="avatar"></a>
-    </div>
+<div class="container-fluid">
+  <a href="/">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+  </a>
+</div>
+<div class="container-fluid">
+  <p class="logo fs-3 p-0">{{ list_name }}</p>
+</div>
+<div class="container">
+  <a href="/user-detail" class="user-icon"><img src="/{{ avatar }}" alt="avatar"></a>
+</div>
 {% endblock %}
 
 {% block main %}
-    <section id="contact">
-        <div class="container pb-2 px-4">
-            <div class="form-floating mb-3">
-                <input type="search" class="form-control" id="search" placeholder="Search" onkeyup="searchInput()">
-                <label for="search">
-                    <i class="fa-solid fa-magnifying-glass me-2"></i>
-                    Search
-                </label>
-            </div>
-        </div>
-        <div class="container px-4">
-            <div id="searchResults">
-                {% for profile in profiles %}
-                    <div class="profile d-flex justify-content-between border-top py-3">
-                        <a href="/profile-detail/{{ profile.profile_id }}" class="d-flex w-100 align-items-center">
-                            <div class="user-icon me-3">
-                                <img src="/static/user-avatar.png" alt="User avatar" />
-                            </div>
-                            <div class="list-item-content">
-                                <p class="m-0 fs-4">{{ profile.last_name }} {{ profile.first_name }}</p>
-                            </div>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    <script>
-        function searchInput() {
-            const searchInput = document.getElementById("search");
-            const profileItems = document.querySelectorAll(".profile");
+<section id="contact">
+  <div class="container pb-2 px-4">
+    <div class="form-floating mb-3">
+      <input type="search" class="form-control" id="search" placeholder="Search" onkeyup="searchInput()">
+      <label for="search">
+        <i class="fa-solid fa-magnifying-glass me-2"></i>
+        Search
+      </label>
+    </div>
+  </div>
+  <div class="container px-4">
+    <div id="searchResults">
+      {% for profile in profiles %}
+      <div class="profile d-flex justify-content-between border-top py-3">
+        <a href="/profile-detail/{{ profile.profile_id }}" class="d-flex w-100 align-items-center">
+          <div class="user-icon me-3">
+            <img src="/static/user-avatar.png" alt="User avatar" />
+          </div>
+          <div class="list-item-content">
+            <p class="m-0 fs-4">{{ profile.last_name }} {{ profile.first_name }}</p>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<script>
+  function searchInput() {
+    const searchInput = document.getElementById("search");
+    const profileItems = document.querySelectorAll(".profile");
 
-            searchInput.addEventListener("keyup", function() {
-                const query = searchInput.value.toLowerCase();
+    searchInput.addEventListener("keyup", function () {
+      const query = searchInput.value.toLowerCase();
 
-                profileItems.forEach(function(item) {
-                    const contentElement = item.querySelector(".list-item-content");
+      profileItems.forEach(function (item) {
+        const contentElement = item.querySelector(".list-item-content");
 
-                    if (contentElement) {
-                        const fullName = contentElement.textContent.toLowerCase();
+        if (contentElement) {
+          const fullName = contentElement.textContent.toLowerCase();
 
-                        if (fullName.includes(query) || query === "") {
-                            item.style.cssText = "";
-                        } else {
-                            item.style.cssText = "display: none !important";
-                        }
-                    }
-                });
-            });
+          if (fullName.includes(query) || query === "") {
+            item.style.cssText = "";
+          } else {
+            item.style.cssText = "display: none !important";
+          }
         }
-
-
-    </script>
+      });
+    });
+  }
+</script>
 {% endblock %}

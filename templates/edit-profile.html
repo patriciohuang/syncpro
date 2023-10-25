@@ -1,84 +1,91 @@
 {% extends "layout.html" %}
 
 {% block nav %}
-    <div class="container-fluid">
-        <a href="/profile-detail/{{ profile_id }}">
-            <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
-        </a>
-    </div>
-    <div class="container-fluid">
-        <p class="logo fs-3">Edit profile</p>
-    </div>
-    <div class="container-fluid"></div>
+<div class="container-fluid">
+  <a href="/profile-detail/{{ profile_id }}">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+  </a>
+</div>
+<div class="container-fluid">
+  <p class="logo fs-3">Edit profile</p>
+</div>
+<div class="container-fluid"></div>
 {% endblock %}
 
 {% block main %}
-    <section class="section">
-        <form id="edit-profile-form" action="/profile-detail/edit-profile/{{ profile_id }}" method="post" onsubmit="return validateForm();">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="profilename" id="profilename" placeholder="Profile Name" autocomplete="off" value="{{ profile.profile_name }}">
-                <label for="profilename">Profile name</label>
-                <div class="error-message" id="profilename-error"></div>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First Name" autocomplete="off" value="{{ profile.first_name }}">
-                <label for="firstname">First name</label>
-                <div class="error-message" id="firstname-error"></div>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last Name" autocomplete="off" value="{{ profile.last_name }}">
-                <label for="lastname">Last name</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="number" class="form-control" name="number" id="number" placeholder="Number" autocomplete="off" value="{{ profile.number }}">
-                <label for="number">Number</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="address" id="address" placeholder="Address" autocomplete="off" value="{{ profile.address }}">
-                <label for="address">Address</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" autocomplete="off" value="{{ profile.email }}">
-                <label for="email">Email</label>
-            </div>
-            <div id="url-container">
-                {% for link in links %}
-                    <div class="input-group mb-3">
-                        <input type="url" class="form-control" name="url{{ link.id }}" value="{{ link.link_url }}">
-                        <label for="url{{ link.id }}">{{ link.link_type }}</label>
-                        <input type="hidden" name="link_id{{ link.id }}" value="{{ link.id }}">
-                        <div class="input-group-text">
-                            <i class="fa-solid fa-circle-minus" onclick="removeURL(this)"></i>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="form-floating mb-3">
-                <input type="button" id="addurl" class="form-control" onclick="addURL()" placeholder="https://example.com">
-                <label for="addurl"><i class="fas fa-plus me-2"></i> Add URL</label>
-            </div>
-            <button class="btn btn-secondary w-100" type="submit">Update</button>
-        </form>
-    </section>
-    <script>
-        function validateForm() {
-            let profilename = document.getElementById("profilename").value;
-            let firstname = document.getElementById("firstname").value;
-            let isValid = true;
+<section class="section">
+  <form id="edit-profile-form" action="/profile-detail/edit-profile/{{ profile_id }}" method="post"
+    onsubmit="return validateForm();">
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="profilename" id="profilename" placeholder="Profile Name"
+        autocomplete="off" value="{{ profile.profile_name }}">
+      <label for="profilename">Profile name</label>
+      <div class="error-message" id="profilename-error"></div>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="firstname" id="firstname" placeholder="First Name"
+        autocomplete="off" value="{{ profile.first_name }}">
+      <label for="firstname">First name</label>
+      <div class="error-message" id="firstname-error"></div>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Last Name" autocomplete="off"
+        value="{{ profile.last_name }}">
+      <label for="lastname">Last name</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="number" class="form-control" name="number" id="number" placeholder="Number" autocomplete="off"
+        value="{{ profile.number }}">
+      <label for="number">Number</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="text" class="form-control" name="address" id="address" placeholder="Address" autocomplete="off"
+        value="{{ profile.address }}">
+      <label for="address">Address</label>
+    </div>
+    <div class="form-floating mb-3">
+      <input type="email" class="form-control" name="email" id="email" placeholder="name@example.com" autocomplete="off"
+        value="{{ profile.email }}">
+      <label for="email">Email</label>
+    </div>
+    <div id="url-container">
+      {% for link in links %}
+      <div class="input-group mb-3">
+        <input type="url" class="form-control" name="url{{ link.id }}" value="{{ link.link_url }}">
+        <label for="url{{ link.id }}">{{ link.link_type }}</label>
+        <input type="hidden" name="link_id{{ link.id }}" value="{{ link.id }}">
+        <div class="input-group-text">
+          <i class="fa-solid fa-circle-minus" onclick="removeURL(this)"></i>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="form-floating mb-3">
+      <input type="button" id="addurl" class="form-control" onclick="addURL()" placeholder="https://example.com">
+      <label for="addurl"><i class="fas fa-plus me-2"></i> Add URL</label>
+    </div>
+    <button class="btn btn-secondary w-100" type="submit">Update</button>
+  </form>
+</section>
+<script>
+  function validateForm() {
+    let profilename = document.getElementById("profilename").value;
+    let firstname = document.getElementById("firstname").value;
+    let isValid = true;
 
-            document.getElementById("profilename-error").textContent = "";
-            document.getElementById("firstname-error").textContent = "";
+    document.getElementById("profilename-error").textContent = "";
+    document.getElementById("firstname-error").textContent = "";
 
-            if (!profilename) {
-                document.getElementById("profilename-error").textContent = "Please enter a profile name.";
-                isValid = false;
-            }
-            if (!firstname) {
-                document.getElementById("firstname-error").textContent = "Please enter a first name.";
-                isValid = false;
-            }
+    if (!profilename) {
+      document.getElementById("profilename-error").textContent = "Please enter a profile name.";
+      isValid = false;
+    }
+    if (!firstname) {
+      document.getElementById("firstname-error").textContent = "Please enter a first name.";
+      isValid = false;
+    }
 
-            return isValid;
-        }
-    </script>
+    return isValid;
+  }
+</script>
 {% endblock %}
