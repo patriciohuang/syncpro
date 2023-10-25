@@ -6,7 +6,6 @@ db = SQL("sqlite:///syncpro.db")
 
 def user_detail():
     user_id = session.get("id")
-    print(user_id)
     user_data = db.execute("SELECT * FROM users WHERE id = ?", user_id)
     return render_template("user-detail.html", user_data=user_data, user_id=user_id)
 
