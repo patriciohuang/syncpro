@@ -20,8 +20,11 @@ def profile_detail(profile_id):
     exist_contact = 0
     links = db.execute("SELECT * FROM profile_links WHERE profile_id = ?", profile_id)
     exist_contact = db.execute("SELECT * FROM profiles JOIN lists_profiles AS lp ON lp.profile_id = profiles.id JOIN lists ON lp.list_id = lists.id WHERE profiles.id = ? AND lists.user_id = ?", profile_id, user_id)
-
-    return render_template("profile-detail.html", links=links, profile=profile, profile_id=profile_id, user_id=user_id, exist_contact=exist_contact)
+    if profile:
+        avatar = profile[0]["image"]
+    else:
+        avatar = '/static/user-avatar.png'
+    return render_template("profile-detail.html", links=links, profile=profile, profile_id=profile_id, user_id=user_id, exist_contact=exist_contact, avatar=avatar)
 
 def add_profile():
     user_id = session["id"]
@@ -102,6 +105,7 @@ def edit_profile(profile_id):
                 link_url = value
                 if link_url:
                     try:
+                        existing_link = db.execute("SELECT * FROM profile_links WHERE link_url = ? AND profile_id = ?", link_url, profile_id)
                         user_favicon = get_favicon_url(link_url)
                         response = requests.get(link_url)
                         response.raise_for_status()
@@ -111,7 +115,7 @@ def edit_profile(profile_id):
                             title = title_tag.text
                         else:
                             title = "Title not found on the page."
-                        if link_id:
+                        if link_id and existing_link:
                             db.execute("UPDATE profile_links SET link_title = ?, link_url = ?, icon = ? WHERE id = ?", title, link_url, user_favicon,link_id)
                         else:
                             db.execute("INSERT INTO profile_links (profile_id, link_title, link_url, icon) VALUES (?, ?, ?, ?)", profile_id, title, link_url, user_favicon)
@@ -119,7 +123,10 @@ def edit_profile(profile_id):
                         return render_template("error.html", error_message='Invalid URL please try again')
                 else:
                     render_template("error.html", error_message="URL not provided, please insert a valid URL")
-
+        for link in links:
+            link_id = link["id"]
+            if f"url{link_id}" not in request.form:
+                db.execute("DELETE FROM profile_links WHERE id = ?", link_id)
         return redirect(f"/profile-detail/{profile_id}")
     else:
         return render_template("edit-profile.html", profile=profile[0], profile_id=profile_id, links=links)

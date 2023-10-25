@@ -12,36 +12,42 @@
             <h1 class="fs-1 fw-bolder">Welcome!</h1>
             <p class="text-secondary">Create an account</p>
         </div>
-        <form class="container" id="registration-form" action="/register{{redirect_param}}" method="post" onsubmit="return validateForm();">
+        <form class="container" id="registration-form" action="/register{{redirect_param}}" method="post" onsubmit="return validateRegisterForm();">
             <div class="mb-5">
                 <div class="form-floating mb-3">
-                    <input type="text" name="username" class="form-control" id="username" placeholder="User name" autocomplete="off">
-                    <label for="username" class="text-secondary">
+                    <input type="email" name="email" class="form-control" id="email" placeholder="example@email.com" autocomplete="off">
+                    <label for="email" class="text-secondary">
                         <i class="fa-solid fa-user me-2"></i>
-                        User name
+                        example@email.com
                     </label>
-                    <div class="error-message" style="height: 10px" id="username-error">
+                    <div class="error-message mb-3" style="height: 10px" id="email-error">
                         {% if existing_user %}
-                            User name is already taken. Please choose another.
+                            User name is already taken.
                         {% endif %}
                     </div>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="input-group form-floating">
                     <input type="password" name="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
                     <label for="password" class="text-secondary">
                         <i class="fa-solid fa-lock me-2"></i>
                         Password
                     </label>
-                    <div class="error-message" style="height: 10px" id="password-error"></div>
+                    <div class="input-group-text" onclick="togglePasswordVisibility('password')" style="cursor: pointer;">
+                        <i class="fa-solid fa-eye me-2" onclick="togglePasswordVisibility('password')"></i>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="error-message mb-3" style="height: 10px" id="password-error"></div>
+                <div class="input-group form-floating">
                     <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm password" type="password" autocomplete="off">
                     <label for="confirmation" class="text-secondary">
                         <i class="fa-solid fa-lock me-2"></i>
                         Confirm password
                     </label>
-                    <div class="error-message" style="height: 10px" id="confirmation-error"></div>
+                    <div class="input-group-text" onclick="togglePasswordVisibility('confirmation')" style="cursor: pointer;">
+                        <i class="fa-solid fa-eye me-2"></i>
+                    </div>
                 </div>
+                <div class="error-message mb-3" style="height: 10px" id="confirmation-error"></div>
             </div>
             <button class="btn btn-primary w-100 mb-3" type="submit">Register</button>
             <div class="d-flex">
@@ -51,18 +57,20 @@
         </form>
     </section>
     <script>
-        function validateForm() {
-            let username = document.getElementById("username").value;
+        function validateRegisterForm() {
+            let email = document.getElementById("email").value;
             let password = document.getElementById("password").value;
             let confirmation = document.getElementById("confirmation").value;
             let isValid = true;
 
-            document.getElementById("username-error").textContent = "";
+            document.getElementById("email-error").textContent = "";
             document.getElementById("password-error").textContent = "";
             document.getElementById("confirmation-error").textContent = "";
 
-            if (!username) {
-                document.getElementById("username-error").textContent = "Please enter a username.";
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+            if (!email || !email.match(emailPattern)) {
+                document.getElementById("email-error").textContent = "Please enter a valid email address.";
                 isValid = false;
             }
 

@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+<div class="container-fluid">
+  <a href="/">
+    <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+    Home
+  </a>
+</div>
+<div class="container-fluid">
+  <img src="/static/logo-dark.png" alt="logo" class="logo">
+</div>
+<div class="container">
+</div>
+{% endblock %}
+
+{% block main %}
+<section class="section">
+  <h1>Personal detail</h1>
+  <div class="my-4">
+    {% for data in user_data %}
+      <div class="mb-5">
+        <h2>User email:</h2>
+        <p>{{ data.email }}</p>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="edit btn btn-secondary my-3 w-100">
+    <a href="/user-detail/edit-user">
+      <i class="fa-regular fa-pen-to-square me-2"></i>
+      Change password
+    </a>
+  </button>
+  <button class="btn btn-danger w-100 my-3">
+    <a href="/logout" class="text-light">Log out</a>
+  </button>
+</section>
+{% endblock %}

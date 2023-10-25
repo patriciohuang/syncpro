@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_session import Session
 
 from helpers import login_required
-from auth import login, logout, register
+from auth import login, logout, register, user_detail, edit_user
 from contact import contact_list, add_contact, delete_contact, edit_contact
 from list import index, add_list, delete_list, edit_list
 from profiles import profile_detail, edit_profile, add_profile, delete_profile, profile_lists
@@ -96,7 +96,7 @@ def add_contact_route(profile_id):
 "EDIT CONTACT"
 @app.route("/profile-detail/edit-contact/<int:profile_id>", methods=["GET", "POST"])
 @login_required
-def contact_edit_route(profile_id):
+def edit_contact_route(profile_id):
     return edit_contact(profile_id)
 
 "DELETE CONTACT"
@@ -105,24 +105,17 @@ def contact_edit_route(profile_id):
 def delete_contact_route(profile_id):
     return delete_contact(profile_id)
 
-# "CONTACT DETAIL"
-# @app.route("/contact-list/contact-detail/<int:contact_id>")
-# @login_required
-# def contact_detail_route(contact_id):
-#     return contact_detail(contact_id)
+# USER
+@app.route("/user-detail")
+@login_required
+def user_detail_route():
+    return user_detail()
 
-# "CONTACT EDIT"
-# @app.route("/contact-list/contact-detail/contact-edit/<int:contact_id>", methods=["GET", "POST"])
-# @login_required
-# def contact_edit_route(contact_id):
-#     return contact_edit(contact_id)
+@app.route("/user-detail/edit-user", methods=["GET", "POST"])
+@login_required
+def edit_user_route():
+    return edit_user()
 
-
-# "CONTACT DELETE"
-# @app.route("/delete-contact/<int:contact_id>")
-# @login_required
-# def delete_contact_route(contact_id):
-#     return delete_contact(contact_id)
 
 # AUTH
 "LOGIN"

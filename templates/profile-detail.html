@@ -23,7 +23,8 @@
   <div class="container-fluid">
     <img src="/static/logo-dark.png" alt="logo" class="logo">
   </div>
-  <div class="container-fluid">
+  <div class="container">
+    <a href="/user-detail" class="user-icon"><img src="/{{ avatar }}" alt="avatar"></a>
   </div>
 {% endblock %}
 {% block main %}
@@ -72,7 +73,7 @@
           {% endfor %}
           {% if not exist_contact and not user_id == profile[0].user_id or not user_id %}
           <a href="/add-contact/{{ profile_id }}" class="form-floating">
-            <button id="share-profile" class="btn btn-primary mb-3 w-100">
+            <button id="share-profile" class="btn btn-secondary mb-3 w-100">
               <i class="fa-solid fa-plus me-2"></i>
               Add to contact
             </button>

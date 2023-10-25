@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block nav %}
+    <div class="container-fluid">
+      <a href="/user-detail">
+        <i class="fa-solid fa-chevron-left fa-xl me-2"></i>
+        Detail
+      </a>
+    </div>
+    <div class="container-fluid">
+      <img src="/static/logo-dark.png" alt="logo" class="logo">
+    </div>
+    <div class="container">
+    </div>
+{% endblock %}
+
+{% block main %}
+    <section class="container auth">
+        <div class="container pb-5">
+            <h1 class="text-secondary">Change your password</h1>
+        </div>
+        <form class="container" id="registration-form" action="/user-detail/edit-user" method="post" onsubmit="return validateUserForm();">
+            <div class="mb-5">
+                <div class="input-group form-floating">
+                  <input type="password" name="currentpassword" class="form-control" id="currentpassword" placeholder="Current password" autocomplete="off">
+                  <label for="currentpassword" class="text-secondary">
+                      <i class="fa-solid fa-lock me-2"></i>
+                      Current Password
+                  </label>
+                  <div class="input-group-text">
+                      <i class="fa-solid fa-eye me-2" onclick="togglePasswordVisibility('currentpassword')"></i>
+                  </div>
+                </div>
+                <div class="error-message mb-3" style="height: 10px" id="current-password-error">
+                  {% if current_password_error %}
+                    Your current password is missing or incorrect.
+                  {% endif %}
+                </div>
+                <div class="input-group form-floating">
+                    <input type="password" name="newpassword" class="form-control" id="newpassword" placeholder="New password" autocomplete="off">
+                    <label for="newpassword" class="text-secondary">
+                        <i class="fa-solid fa-lock me-2"></i>
+                        New password
+                    </label>
+                    <div class="input-group-text" onclick="togglePasswordVisibility('newpassword')" style="cursor: pointer;">
+                        <i class="fa-solid fa-eye me-2"></i>
+                    </div>
+                </div>
+                <div class="error-message mb-3" style="height: 10px" id="new-password-error"></div>
+                <div class="input-group form-floating">
+                    <input class="form-control" id="confirmation" name="confirmation" placeholder="Confirm password" type="password" autocomplete="off">
+                    <label for="confirmation" class="text-secondary">
+                        <i class="fa-solid fa-lock me-2"></i>
+                        Confirm password
+                    </label>
+                    <div class="input-group-text" onclick="togglePasswordVisibility('confirmation')" style="cursor: pointer;">
+                        <i class="fa-solid fa-eye me-2"></i>
+                    </div>
+                </div>
+                <div class="error-message mb-3" style="height: 10px" id="confirmation-error"></div>
+            </div>
+            <button class="btn btn-secondary w-100 mb-3" type="submit">Done</button>
+        </form>
+    </section>
+    <script>
+        function validateUserForm() {
+          let currentpassword = document.getElementById("currentpassword").value;
+          let newpassword = document.getElementById("newpassword").value;
+          let confirmation = document.getElementById("confirmation").value;
+          let isValid = true;
+
+          document.getElementById("current-password-error").textContent = "";
+          document.getElementById("new-password-error").textContent = "";
+          document.getElementById("confirmation-error").textContent = "";
+
+          if (!currentpassword) {
+              document.getElementById("current-password-error").textContent = "Your current password is missing or incorrect.";
+              isValid = false;
+          }
+
+          if (!newpassword) {
+              document.getElementById("new-password-error").textContent = "Please enter a new password.";
+              isValid = false;
+          }
+
+          if (!confirmation) {
+              document.getElementById("confirmation-error").textContent = "Please confirm your password.";
+              isValid = false;
+          }
+
+          if (newpassword !== confirmation) {
+              document.getElementById("confirmation-error").textContent = "Passwords do not match.";
+              isValid = false;
+          }
+
+          return isValid;
+        }
+
+    </script>
+
+{% endblock %}

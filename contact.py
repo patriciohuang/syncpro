@@ -13,7 +13,11 @@ def contact_list(list_id):
     profiles = db.execute("SELECT * FROM profiles JOIN lists_profiles AS lp ON lp.profile_id = profiles.id JOIN lists ON lp.list_id = lists.id WHERE lists.id = ?", list_id)
     lists = db.execute("SELECT * FROM lists WHERE id = ?", list_id)
     list_name = lists[0]["list_name"]
-    return render_template("contact-list.html", list_id=list_id, profiles=profiles, list_name=list_name)
+    if profiles:
+        avatar = profiles[0]["image"]
+    else:
+        avatar = '/static/user-avatar.png'
+    return render_template("contact-list.html", list_id=list_id, profiles=profiles, list_name=list_name, avatar=avatar)
 
 def add_contact(profile_id):
     user_id = session["id"]

@@ -43,10 +43,13 @@
             </div>
             <div id="url-container">
                 {% for link in links %}
-                    <div class="form-floating mb-3">
+                    <div class="input-group mb-3">
                         <input type="url" class="form-control" name="url{{ link.id }}" value="{{ link.link_url }}">
-                        <label for="url">{{ link.link_type }}</label>
+                        <label for="url{{ link.id }}">{{ link.link_type }}</label>
                         <input type="hidden" name="link_id{{ link.id }}" value="{{ link.id }}">
+                        <div class="input-group-text">
+                            <i class="fa-solid fa-circle-minus" onclick="removeURL(this)"></i>
+                        </div>
                     </div>
                 {% endfor %}
             </div>

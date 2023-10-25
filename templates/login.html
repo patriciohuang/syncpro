@@ -12,29 +12,32 @@
             <h1 class="fs-1 fw-bolder">Hello!</h1>
             <p class="text-secondary">Welcome back</p>
         </div>
-        <form class="container" id="login-form" action="/login{{redirect_param}}" method="post" onsubmit="return validateForm();">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="username" id="username" placeholder="User name" autocomplete="off">
-                <label for="username" class="text-secondary">
+        <form class="container" id="login-form" action="/login{{redirect_param}}" method="post" onsubmit="return validateLoginForm();">
+            <div class="form-floating">
+                <input type="email" class="form-control" name="email" id="email" placeholder="example@email.com" autocomplete="off">
+                <label for="email" class="text-secondary">
                     <i class="fa-solid fa-user me-2"></i>
-                    User name
+                    example@email.com
                 </label>
-                <div class="error-message" style="height: 10px" id="username-error">
-                </div>
             </div>
-            <div class="form-floating mb-3">
+            <div class="error-message mb-3" style="height: 10px" id="username-error">
+            </div>
+            <div class="input-group form-floating">
                 <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off">
                 <label for="password" class="text-secondary">
                     <i class="fa-solid fa-lock me-2"></i>
                     Password
                 </label>
-                <div class="error-message" style="height: 10px" id="password-error">
-                    {% if invalid %}
-                        Invalid user name or password.
-                    {% endif %}
+                <div class="input-group-text" onclick="togglePasswordVisibility('password')" style="cursor: pointer;">
+                    <i class="fa-solid fa-eye me-2"></i>
                 </div>
             </div>
-            <button class="btn btn-primary w-100 mb-3" type="submit">Login</button>
+            <div class="error-message mb-3" style="height: 10px" id="password-error">
+                {% if invalid %}
+                    Invalid user name or password.
+                {% endif %}
+            </div>
+            <button class="btn btn-primary w-100 my-3" type="submit">Login</button>
             <div class="d-flex">
                 <p class="me-3 text-secondary">Don't have an account?</p>
                 <a href="/register{{redirect_param}}">Sign up</a>
@@ -42,7 +45,7 @@
         </form>
     </section>
     <script>
-        function validateForm() {
+        function validateLoginForm() {
             let username = document.getElementById("username").value;
             let password = document.getElementById("password").value;
             let isValid = true;

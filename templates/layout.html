@@ -37,22 +37,48 @@
         </main>
     </body>
     <script>
+        // Change password visibility
+        function togglePasswordVisibility(inputId) {
+            let passwordInput = document.getElementById(inputId);
+            let toggleButton = document.getElementById(`toggle-${inputId}`);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "Hide Password";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "Show Password";
+            }
+        }
+
         // For ADD FORM and EDIT FORM to add new url
         let urlCount = 0;
 
         function addURL() {
             urlCount++;
             const urlContainer = document.getElementById("url-container");
-            const inputField = document.createElement("div");
-            inputField.className = "form-floating mb-3";
+            const inputGroup = document.createElement("div");
+            inputGroup.className = "input-group mb-3";
 
-            inputField.innerHTML = `
+            inputGroup.innerHTML = `
                 <input type="url" class="form-control" name="url${urlCount}" placeholder="https://example.com">
-                <label for="url${urlCount}">URL</label>
+                <label for="url${urlCount}"></label>
+                <div class="input-group-text">
+                    <i class="fa-solid fa-circle-minus" onclick="removeURL(this)"></i>
+                </div>
             `;
 
-            urlContainer.appendChild(inputField);
+            urlContainer.appendChild(inputGroup);
         }
+
+
+        // For ADD FORM and EDIT FORM to delete URL input
+        function removeURL(button) {
+            const urlInputGroup = button.parentElement.parentElement;
+            const urlContainer = document.getElementById("url-container");
+            urlContainer.removeChild(urlInputGroup);
+        }
+
         // For ADD FORM and EDIT FORM to validate the form before submit
         function validateForm() {
             let profilename = document.getElementById("profilename").value;
