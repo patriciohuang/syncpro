@@ -21,6 +21,20 @@ This project is built using Python and the Flask web framework for the backend. 
 - **User Links:** Add web links (URLs) in your profiles for easy access to related websites.
 - **Responsive Design:** The application is responsive, supporting various devices including desktop and mobile.
 
+### How to Run:
+
+####Prerequisites:
+Before you can run Syncpro, make sure you have the following prerequisites installed on your computer:
+
+- **Python**: Syncpro is built using Python. If you don't have Python installed, you can download it from Python's official website.
+
+- **Git**: To clone the repository, you need Git. If you don't have Git installed, you can download it from Git's official website.
+
+
+1. Clone this repository to your computer.
+2. Install the required dependencies with `pip install -r requirements.txt`.
+3. Run the Flask application by executing `python app.py` in your terminal.
+4. Run the syncpro by executing `python -m flask --debug run` in your terminal.
 
 ### Author:
 
