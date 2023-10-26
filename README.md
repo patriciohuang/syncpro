@@ -23,7 +23,7 @@ This project is built using Python and the Flask web framework for the backend. 
 
 ### How to Run:
 
-####Prerequisites:
+#### Prerequisites:
 Before you can run Syncpro, make sure you have the following prerequisites installed on your computer:
 
 - **Python**: Syncpro is built using Python. If you don't have Python installed, you can download it from Python's official website.
